@@ -2,7 +2,7 @@ import { Confirm } from '@/modules/auth/pages/confirm';
 import { EUnauthenticatedPath } from '../domain/enums/unauthenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
 
-import { Login, Reset, Recover, SignUp } from '@/modules/auth/pages';
+import { Login, Recover, Reset } from '@/modules/auth/pages';
 
 export const UNAUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -10,11 +10,11 @@ export const UNAUTHENTICATED_ROUTES: Array<IRoute> = [
     element: <Login />,
     path: EUnauthenticatedPath.LOGIN,
   },
-  {
-    name: 'Cadastre-se',
-    path: EUnauthenticatedPath.SIGN_UP,
-    element: <SignUp />,
-  },
+  // {
+  //   name: 'Cadastre-se',
+  //   path: EUnauthenticatedPath.SIGN_UP,
+  //   element: <SignUp />,
+  // },
   {
     name: 'Recuperar Senha',
     path: EUnauthenticatedPath.RECOVER,

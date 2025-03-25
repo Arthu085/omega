@@ -1,19 +1,18 @@
-import { useState } from 'react';
-import { useNavigate, Link as LinkRouter } from 'react-router-dom';
-import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@mui/material';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Link as LinkRouter, useNavigate } from 'react-router-dom';
 
 import { EUnauthenticatedPath } from '@/core/router';
 
+import { AddressForm, Stepper, StepperButtons } from '@/shared/components';
 import { IStepperStep } from '@/shared/domain';
-import { callbackOnInvalidZod, formatErrorForNotification } from '@/shared/utils';
-import { Stepper, AddressForm, StepperButtons } from '@/shared/components';
 import {
-  UnauthenticatedContentAlert,
   IUnauthenticatedContentAlert,
-  UnauthenticatedContentHeader,
+  UnauthenticatedContentAlert
 } from '@/shared/layout';
+import { callbackOnInvalidZod, formatErrorForNotification } from '@/shared/utils';
 
 import { SignUpData, signUpSchema } from '../../domain';
 import { AuthRepository } from '../../repositories';
@@ -127,10 +126,10 @@ export function SignUp() {
 
   return (
     <>
-      <UnauthenticatedContentHeader
+      {/* <UnauthenticatedContentHeader
         title='Cadastre-se'
         description='Utilize o formulário a seguir para criar uma nova conta.'
-      />
+      /> */}
 
       <UnauthenticatedContentAlert alert={alert} clear={handleClearAlert} />
 

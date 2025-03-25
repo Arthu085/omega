@@ -10,7 +10,7 @@ interface Props extends UseControllerProps<any>, Omit<TextFieldProps, 'defaultVa
 
 const TextMask = forwardRef<HTMLElement, any>(function TextMask(props, ref) {
   const { mask, ...other } = props;
-  return <IMaskInput {...other} mask={mask} inputRef={ref} />;
+  return <IMaskInput {...other} mask={mask} inputRef={ref as any} />;
 });
 
 export function ControlledDebounce({ mask, ...props }: Props) {

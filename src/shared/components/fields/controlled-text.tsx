@@ -5,7 +5,7 @@ import { useController, UseControllerProps } from 'react-hook-form';
 
 interface ControlledTextProps
   extends UseControllerProps<any>,
-    Omit<TextFieldProps, 'defaultValue' | 'name'> {
+  Omit<TextFieldProps, 'defaultValue' | 'name'> {
   mask?: string | Array<{ mask: string }>;
   maxLength?: number;
   disabledErrorOnValue?: boolean;
@@ -19,7 +19,7 @@ const TextMask = forwardRef<HTMLElement, any>(function TextMask(props, inputRef)
       {...other}
       mask={mask}
       unmask={true}
-      inputRef={inputRef}
+      inputRef={inputRef as any}
       // DO NOT USE onChange TO HANDLE CHANGES!
       // USE onAccept INSTEAD
       onAccept={

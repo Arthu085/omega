@@ -23,7 +23,7 @@ export function UnauthenticatedFooter() {
             cursor: 'pointer',
           }}
         >
-          Weiler
+          Omega
         </Link>
       </Typography>
 

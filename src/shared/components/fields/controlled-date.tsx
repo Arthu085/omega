@@ -6,7 +6,7 @@ import { UseControllerProps, useController } from 'react-hook-form';
 
 interface Props
   extends UseControllerProps<any>,
-    Omit<DatePickerProps<any>, 'defaultValue' | 'name'> {}
+  Omit<DatePickerProps<any>, 'defaultValue' | 'name'> { }
 
 export function ControlledDate(props: Props) {
   const {
@@ -23,7 +23,7 @@ export function ControlledDate(props: Props) {
         disableFuture
         {...props}
         {...field}
-        onChange={(value: DateTime) => field.onChange(value ? value.toJSDate() : undefined)}
+        onChange={(value: DateTime<boolean> | null) => field.onChange(value ? value.toJSDate() : undefined)}
         slotProps={{
           textField: {
             size: 'small',

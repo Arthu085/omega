@@ -17,7 +17,7 @@ interface Props extends UseControllerProps<any>, Omit<TextFieldProps, 'defaultVa
 const NumberMask = forwardRef<HTMLElement, any>(function NumberMask(props, inputRef) {
   const { ...other } = props;
   return (
-    <IMaskInput {...other} min={undefined} max={undefined} inputRef={inputRef} unmask={true} />
+    <IMaskInput {...other} min={undefined} max={undefined} inputRef={inputRef as any} unmask={true} />
   );
 });
 

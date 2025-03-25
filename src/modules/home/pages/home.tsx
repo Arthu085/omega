@@ -5,7 +5,6 @@ import { Card, CardContent, Grid, Typography } from '@mui/material';
 // import useSWR from 'swr';
 // import { ProductivePhaseListTable } from '../components/productive-phase-list-table';
 import { useState } from 'react';
-import { AlarmCardProps } from '../components/alarm-list-cards';
 import { Cards } from '../repositories/home-repository';
 // import { useForm } from 'react-hook-form';
 
@@ -102,7 +101,7 @@ export function Home() {
               <ControlledDebounce name='searchText' control={control} label='Procurar' fullWidth />
             </Grid>
           </Grid> */}
-          <Grid md={12} item>
+          {/* <Grid md={12} item>
             <AlarmCardProps
               name="name"
               description="Descrição breve"
@@ -110,7 +109,7 @@ export function Home() {
               onHistory={() => console.log("Histórico")}
               onRename={() => console.log("Renomear")}
             />
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageCard>
     </Page>

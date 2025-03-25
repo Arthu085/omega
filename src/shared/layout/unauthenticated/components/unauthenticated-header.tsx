@@ -1,11 +1,9 @@
-import { useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
 import { Container } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 // import { Facebook, LinkedIn, YouTube, Instagram } from '@mui/icons-material';
 
-import { EUnauthenticatedPath } from '@/core/router';
 
-import { LinkButton, Logo } from '@/shared/components';
+import { Logo } from '@/shared/components';
 
 // interface ISocialMedia {
 //   url: string;
@@ -36,14 +34,14 @@ import { LinkButton, Logo } from '@/shared/components';
 export function UnauthenticatedHeader() {
   const { pathname } = useLocation();
 
-  const { redirectTo, redirectLabel } = useMemo(() => {
-    const isSignUp = pathname === EUnauthenticatedPath.SIGN_UP;
+  // const { redirectTo, redirectLabel } = useMemo(() => {
+  //   const isSignUp = pathname === EUnauthenticatedPath.SIGN_UP;
 
-    return {
-      redirectTo: isSignUp ? EUnauthenticatedPath.LOGIN : EUnauthenticatedPath.SIGN_UP,
-      redirectLabel: isSignUp ? 'Entrar' : 'Cadastre-se',
-    };
-  }, [pathname]);
+  //   return {
+  //     redirectTo: isSignUp ? EUnauthenticatedPath.LOGIN : EUnauthenticatedPath.SIGN_UP,
+  //     redirectLabel: isSignUp ? 'Entrar' : 'Cadastre-se',
+  //   };
+  // }, [pathname]);
 
   return (
     <Container
@@ -93,7 +91,7 @@ export function UnauthenticatedHeader() {
         )}
       </Box> */}
 
-      <LinkButton
+      {/* <LinkButton
         variant='contained'
         color='inherit'
         size='large'
@@ -107,7 +105,7 @@ export function UnauthenticatedHeader() {
         to={redirectTo}
       >
         {redirectLabel}
-      </LinkButton>
+      </LinkButton> */}
     </Container>
   );
 }

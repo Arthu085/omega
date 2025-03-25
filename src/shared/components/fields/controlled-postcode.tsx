@@ -29,7 +29,7 @@ const TextMask = forwardRef<HTMLElement, any>(function TextMask(props, inputRef)
       {...other}
       mask={mask}
       unmask={true}
-      inputRef={inputRef}
+      inputRef={inputRef as any}
       // DO NOT USE onChange TO HANDLE CHANGES!
       // USE onAccept INSTEAD
       onAccept={
