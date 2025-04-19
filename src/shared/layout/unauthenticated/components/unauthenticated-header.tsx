@@ -1,9 +1,7 @@
 import { Container } from '@mui/material';
-import { useLocation } from 'react-router-dom';
 // import { Facebook, LinkedIn, YouTube, Instagram } from '@mui/icons-material';
 
 
-import { Logo } from '@/shared/components';
 
 // interface ISocialMedia {
 //   url: string;
@@ -32,7 +30,6 @@ import { Logo } from '@/shared/components';
 // ];
 
 export function UnauthenticatedHeader() {
-  const { pathname } = useLocation();
 
   // const { redirectTo, redirectLabel } = useMemo(() => {
   //   const isSignUp = pathname === EUnauthenticatedPath.SIGN_UP;
@@ -56,7 +53,7 @@ export function UnauthenticatedHeader() {
         justifyContent: 'space-around',
       }}
     >
-      <Logo />
+      {/* <Logo /> */}
 
       {/* <Box
         sx={{
