@@ -43,7 +43,7 @@ export function Home() {
   return (
     <Page>
       <PageHeader>
-        <PageTitle toHome>Meus Dispositivos</PageTitle>
+        <PageTitle toHome>Minhas Produções</PageTitle>
         <PageButtons>
           <LinkButton to='./novo' variant='contained' size='large' sx={{ minWidth: '180px' }}>
             Nova Produção
@@ -54,7 +54,7 @@ export function Home() {
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
-                  Total de alarmes
+                  Total de produções
                 </Typography>
                 <Typography variant='h5' color={'primary'}>
                   {cards.countAllAssets}
@@ -63,7 +63,7 @@ export function Home() {
             </Card>
           </Grid>
 
-          <Grid xs={12} md={4} item>
+          {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
@@ -74,9 +74,9 @@ export function Home() {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid> */}
 
-          <Grid xs={12} md={4} item>
+          {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
@@ -87,7 +87,7 @@ export function Home() {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageHeader>
 
