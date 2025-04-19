@@ -13,7 +13,6 @@ import {
   LoginResponseDTO,
   LoginRequestDTO,
   RecoverRequestDTO,
-  ResetRequestDTO,
 } from '../domain';
 import { AuthRepository } from '../repositories';
 
@@ -25,7 +24,6 @@ export const AuthContext = createContext<IUseAuth>({} as IUseAuth);
 
 function authReducer(state: IAuth, action: IAuthAction) {
   const { type, user } = action;
-
   const states = {
     [EAuthAction.LOGIN]: {
       ...state,
@@ -91,9 +89,9 @@ export function AuthProvider({ children }: Props) {
 
       setLocalStorage(auth);
 
-      const user = await repository.check()
+      // const user = await repository.check()
 
-      dispatch({ type: EAuthAction.LOGIN, user });
+      dispatch({ type: EAuthAction.LOGIN });
 
       navigate(location ?? '/', {
         state: {
@@ -118,30 +116,6 @@ export function AuthProvider({ children }: Props) {
     setLoading(false);
   }
 
-  async function recover(data: RecoverRequestDTO) {
-    try {
-      setLoading(true);
-
-      const message = await repository.recover(data);
-
-      return message;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function reset(data: ResetRequestDTO) {
-    try {
-      setLoading(true);
-
-      const message = await repository.reset(data);
-
-      return message;
-    } finally {
-      setLoading(false);
-    }
-  }
-
   async function refreshUser() {
     const user = await repository.check();
 
@@ -162,8 +136,6 @@ export function AuthProvider({ children }: Props) {
     () => ({
       login,
       logout,
-      recover,
-      reset,
       loading,
       confirm,
       refreshUser,

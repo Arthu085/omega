@@ -8,9 +8,6 @@ interface Props {
 }
 
 export function RequiredAbility({ }: Props) {
-  const { user } = useAuth();
-
-  console.log('user: ', user);
 
   // const requiredBy = action
   //   ? (ability: Ability) => ability.code === reference && ability.action === action
