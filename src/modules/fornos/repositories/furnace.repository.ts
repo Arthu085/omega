@@ -2,7 +2,10 @@ import { Repository } from '@/core/http/repository';
 
 import { FornosDto } from '../domain/dto/fornos.dto';
 import { FurnaceEntity } from '../domain/entities/furnace.entity';
-import { ID } from '@/shared/domain';
+import { ID, IPaginationResponse } from '@/shared/domain';
+import { isArray } from '@/shared/utils';
+import { FornosListDTO } from '../domain/dto/fornos-list.dto';
+import { Fornos } from '../pages/fornos';
 
 export class FurnaceRepository extends Repository {
   static instance: FurnaceRepository;
@@ -17,26 +20,31 @@ export class FurnaceRepository extends Repository {
     FurnaceRepository.instance = this;
   }
 
-  //   public async list(params: UserListDTO): Promise<IPaginationResponse<User>> {
-  //     const { status, data: response } = await this.http.get<IPaginationResponse<User>>('/', {
-  //       params: {
-  //         ...params.filter,
-  //         ...params.pagination,
-  //       },
-  //     });
+  public async list(params: FornosListDTO): Promise<IPaginationResponse<FurnaceEntity>> {
+    const { status, data: response } = await this.http.get<IPaginationResponse<FurnaceEntity>>(
+      '/',
+      {
+        params: {
+          ...params.filter,
+          ...params.pagination,
+        },
+      },
+    );
 
-  //     if (this.isOK(status)) {
-  //       const { pages, total, data } = response;
+    if (this.isOK(status)) {
+      const { pages, total, data } = response;
 
-  //       return {
-  //         pages: pages ?? 1,
-  //         total: total ?? 0,
-  //         data: isArray(data) ? data.map((item) => new User(item)) : ([] as Array<User>),
-  //       };
-  //     }
+      return {
+        pages: pages ?? 1,
+        total: total ?? 0,
+        data: isArray(data)
+          ? data.map((item) => new FurnaceEntity(item))
+          : ([] as Array<FurnaceEntity>),
+      };
+    }
 
-  //     throw new Error('Ops, algo inesperado aconteceu!');
-  //   }
+    throw new Error('Ops, algo inesperado aconteceu!');
+  }
 
   //   public async get(id: ID): Promise<User> {
   //     const { status, data } = await this.http.get<User>(`/${id}`);

@@ -5,11 +5,15 @@ import { Page, PageButtons, PageCard, PageHeader, PageTitle } from '@/shared/com
 import { Box, Button } from '@mui/material';
 // import useSWR from 'swr';
 // import { ProductivePhaseListTable } from '../components/productive-phase-list-table';
+import { useAuth } from '@/modules/auth/hooks';
 import { useState } from 'react';
-import { TabelaFornos } from '../components/tabela-fornos';
-import { EStatusForno } from '../domain/enums/status-fornos.enum';
+import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
+import { FurnaceListTable } from '../components/tabela-fornos';
+import { useFornosListParams } from '../hook/furnace-list-params.hook';
+import { FurnaceRepository } from '../repositories/furnace.repository';
 import { FurnaceCreateModal } from './create/components/create-furnace-modal';
+import { FurnaceListFilter } from './create/components/fornos-list-filter';
 
 
 // import { Cards } from '../repositories/home-repository';
@@ -22,39 +26,34 @@ export function Fornos() {
         countAllSubsetsCompany: 0,
     });
 
+
+
+    const { user } = useAuth();
+    const { control, watch } = useForm({
+        defaultValues: {
+            searchText: '',
+            level: undefined,
+        },
+    });
+    const searchText = watch('searchText');
+    const level = watch('level');
+    const repository = new FurnaceRepository();
+    const { params, onChangePagination } = useFornosListParams();
+    const { data, isLoading, error, mutate } = useSWR(
+        [
+            `fornos-list-${user?.id}`,
+            { ...params, filter: { search: searchText, level: level } },
+        ],
+        ([_url, value]) => repository.list(value),
+    );
+
+    console.log('data: ', data);
+
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = async () => {
         setModalOpen(false);
-        // await mutate();
+        await mutate();
     };
-
-
-    // const { user } = useAuth();
-    // const { control, watch } = useForm({
-    //   defaultValues: {
-    //     searchText: '',
-    //     level: undefined,
-    //   },
-    // });
-    // const searchText = watch('searchText');
-    // const level = watch('level');
-    // const productivePhaseRepository = new ProductivePhaseRepository();
-    // const homeRepository = new HomeRepository();
-    // const { params, onChangePagination } = useProductivePhaseListParams();
-    // const { data, isLoading, error, mutate } = useSWR(
-    //   [
-    //     `productive-phase-list-${user?.id}`,
-    //     { ...params, filter: { search: searchText, level: level } },
-    //   ],
-    //   ([_url, value]) => productivePhaseRepository.list(value),
-    // );
-
-    // useEffect(() => {
-    //   homeRepository.get().then((value) => {
-    //     setCards(value);
-    //   });
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
 
     return (
         <Page>
@@ -73,23 +72,14 @@ export function Fornos() {
             </PageHeader>
             <PageCard sx={{ flexGrow: 1 }}>
                 <Box sx={{ width: '100%' }}>
-                    <TabelaFornos
-                        logs={[
-                            {
-                                id: 1,
-                                name: 'Fornos 1',
-                                nro_forno: 123456,
-                                status: EStatusForno.EM_MANUTENCAO,
-                                situacao: 'Ativo',
-                            },
-                            {
-                                id: 2,
-                                name: 'Fornos 2',
-                                nro_forno: 123456,
-                                status: EStatusForno.ATIVO,
-                                situacao: 'Ativo',
-                            },
-                        ]}
+                    <FurnaceListFilter />
+                    <FurnaceListTable
+                        data={data}
+                        isLoading={isLoading}
+                        error={error}
+                        mutate={mutate}
+                        params={params}
+                        onChangePagination={onChangePagination}
                     />
                 </Box>
             </PageCard>

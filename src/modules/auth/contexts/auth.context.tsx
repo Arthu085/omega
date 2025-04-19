@@ -89,6 +89,8 @@ export function AuthProvider({ children }: Props) {
 
       setLocalStorage(auth);
 
+      // const user = await repository.check()
+
       dispatch({ type: EAuthAction.LOGIN });
 
       navigate(location ?? '/', {

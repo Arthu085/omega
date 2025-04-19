@@ -44,7 +44,7 @@ export function FurnaceCreateModal({
     const onSubmit = async (formData: FornosDto) => {
         if (data && id) {
             const phase = {
-                name: formData.name,
+                nome: formData.nome,
                 nro_forno: formData.nro_forno,
             };
 
@@ -67,7 +67,7 @@ export function FurnaceCreateModal({
                 .create(create)
                 .then(async () => {
                     reset();
-                    toast.success('Processo principal criado com sucesso!');
+                    toast.success('Forno criado com sucesso!');
                     onClose();
                 })
                 .catch((e) => {
@@ -82,7 +82,7 @@ export function FurnaceCreateModal({
             <Box sx={style} component='form' onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <ControlledText label='Nome' name='name' control={control} />
+                        <ControlledText label='Nome' name='nome' control={control} />
                     </Grid>
                     <Grid item xs={12}>
                         <ControlledText label='Número do forno' name='nro_forno' control={control} />
