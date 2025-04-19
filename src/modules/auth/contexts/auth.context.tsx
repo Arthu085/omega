@@ -144,8 +144,5 @@ export function AuthProvider({ children }: Props) {
     [loading, state],
   );
 
-  console.log('value: ', value);
-  console.log('children: ', children);
-
   return <AuthContext.Provider value={value}> {children} </AuthContext.Provider>;
 }
