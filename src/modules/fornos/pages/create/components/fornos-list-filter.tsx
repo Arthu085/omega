@@ -30,7 +30,7 @@ export function FurnaceListFilter() {
     return (
         <Grid container spacing={2} component='form'>
             <Grid item md={6} sm={6} xs={6}>
-                <ControlledDebounce label='Nível' name='level' control={control} />
+                <ControlledDebounce label='Número de identificação' name='level' control={control} />
             </Grid>
 
             <Grid item md={6} sm={6} xs={6}>

@@ -12,6 +12,7 @@ import { IMenu, IOption, IPaginationRequest, IPaginationResponse } from '@/share
 import { FornosListDTO } from '../domain/dto/fornos-list.dto';
 import { FurnaceEntity } from '../domain/entities/furnace.entity';
 import { FurnaceCreateModal } from '../pages/create/components/create-furnace-modal';
+import { EStatusForno } from '../domain/enums/status-fornos.enum';
 
 interface FurnaceListTableProps {
     data: { data: FurnaceEntity[]; total: number } | undefined;
@@ -30,7 +31,6 @@ export function FurnaceListTable({
     params,
     onChangePagination,
 }: FurnaceListTableProps) {
-    console.log('data: ', data);
     const [editData, setEditData] = useState<any>(null);
     const [idEditData, setIdEditData] = useState<any>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export function FurnaceListTable({
 
     const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
         nome: { label: 'Nome', value: true },
-        nro_forno: { label: 'Número de identificação', value: true },
+        nroForno: { label: 'Número de identificação', value: true },
         status: { label: 'Status', value: true },
         situacao: { label: 'Situacao', value: true }
     });
@@ -54,6 +54,25 @@ export function FurnaceListTable({
         }));
     }
 
+    const renderStatusCircle = (status: string) => {
+        const circleStyle = {
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            display: 'inline-block',
+            margin: '0 5px',
+        };
+
+        if (status === EStatusForno.ATIVO) {
+            return <span style={{ ...circleStyle, backgroundColor: 'green' }} />;
+        } else if (status === EStatusForno.EM_MANUTENCAO) {
+            return <span style={{ ...circleStyle, backgroundColor: 'yellow' }} />;
+        }
+
+        return null;
+    };
+
+
     const editPhase = (id: number) => {
         if (data) {
             const phaseData = data.data.find((phase: any) => phase.id === id);
@@ -67,7 +86,7 @@ export function FurnaceListTable({
 
     const columns: Array<MUIDataTableColumnDef> = [
         {
-            name: 'nomr',
+            name: 'nome',
             label: toggleColumns['nome'].label,
             options: {
                 sortThirdClickReset: true,
@@ -75,11 +94,11 @@ export function FurnaceListTable({
             },
         },
         {
-            name: 'nro_forno',
-            label: toggleColumns['nro_forno'].label,
+            name: 'nroForno',
+            label: toggleColumns['nroForno'].label,
             options: {
                 sortThirdClickReset: true,
-                display: toggleColumns['nro_forno'].value,
+                display: toggleColumns['nroForno'].value,
             },
         },
         {
@@ -88,6 +107,9 @@ export function FurnaceListTable({
             options: {
                 sortThirdClickReset: true,
                 display: toggleColumns['status'].value,
+                customBodyRender: (status: string) => {
+                    return renderStatusCircle(status);
+                },
             },
         },
         {

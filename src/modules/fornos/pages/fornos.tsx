@@ -41,13 +41,11 @@ export function Fornos() {
     const { params, onChangePagination } = useFornosListParams();
     const { data, isLoading, error, mutate } = useSWR(
         [
-            `fornos-list-${user?.id}`,
+            `fornos-${user?.id}`,
             { ...params, filter: { search: searchText, level: level } },
         ],
         ([_url, value]) => repository.list(value),
     );
-
-    console.log('data: ', data);
 
     const handleOpenModal = () => setModalOpen(true);
     const handleCloseModal = async () => {

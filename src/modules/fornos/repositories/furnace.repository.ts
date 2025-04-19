@@ -30,7 +30,7 @@ export class FurnaceRepository extends Repository {
         },
       },
     );
-
+    
     if (this.isOK(status)) {
       const { pages, total, data } = response;
 
@@ -38,7 +38,9 @@ export class FurnaceRepository extends Repository {
         pages: pages ?? 1,
         total: total ?? 0,
         data: isArray(data)
-          ? data.map((item) => new FurnaceEntity(item))
+          ? data.map((item) => {
+              return new FurnaceEntity(item);
+            })
           : ([] as Array<FurnaceEntity>),
       };
     }

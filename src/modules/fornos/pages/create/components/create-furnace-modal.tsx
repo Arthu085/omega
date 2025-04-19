@@ -2,7 +2,7 @@ import { FornosDto } from '@/modules/fornos/domain/dto/fornos.dto';
 import { FurnaceEntity } from '@/modules/fornos/domain/entities/furnace.entity';
 import { FurnaceRepository } from '@/modules/fornos/repositories/furnace.repository';
 import { Box, Button, Grid, Modal } from '@mui/material';
-import { ControlledNumber, ControlledText } from '@shared/components';
+import { ControlledText } from '@shared/components';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -43,15 +43,13 @@ export function FurnaceCreateModal({
 
     const onSubmit = async (formData: FornosDto) => {
         if (data && id) {
-            const phase = {
+            const furnace = {
                 nome: formData.nome,
-                nro_forno: formData.nro_forno,
+                nroForno: formData.nroForno,
             };
 
-            console.log('phase: ', phase);
-
             furnaceRepository
-                .update(id, phase)
+                .update(id, furnace)
                 .then(async () => {
                     reset();
                     toast.success('Processo principal atualizado com sucesso!');
@@ -85,7 +83,7 @@ export function FurnaceCreateModal({
                         <ControlledText label='Nome' name='nome' control={control} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ControlledText label='Número do forno' name='nro_forno' control={control} />
+                        <ControlledText label='Número do forno' name='nroForno' control={control} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} style={{ marginTop: 16 }}>
