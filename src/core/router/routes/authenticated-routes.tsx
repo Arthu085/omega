@@ -13,6 +13,7 @@ import { EAbilityCodes } from '@/modules/role/domain';
 import { RequiredAbility } from '../hocs/required-ability';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { UserList, UserUpdate } from '@/modules/user/pages';
+import { Fornos } from '@/modules/fornos/pages/fornos';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -23,6 +24,50 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   },
   {
     name: 'Página Inicial',
+    icon: <HomeOutlined />,
+    element: <Home />,
+    path: EAuthenticatedPath.HOME,
+  },
+  {
+    name: 'Histórico',
+    icon: <HomeOutlined />,
+    element: <Home />,
+    path: EAuthenticatedPath.HOME,
+  },
+  {
+    name: 'Fornos',
+    path: EAuthenticatedPath.FORNOS,
+    icon: <HomeOutlined />,
+    element: <Fornos />,
+    children: [
+      // {
+      //   index: true,
+      //   name: 'Cadastro de Hierarquia',
+      //   element: <CompanyList />,
+      // },
+      {
+        name: 'Novos Fornos',
+        hidden: true,
+        path: 'novo',
+        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
+        children: [
+          {
+            name: 'Novos Fornos',
+            index: true,
+            element: <Fornos />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Funcionários',
+    icon: <HomeOutlined />,
+    element: <Home />,
+    path: EAuthenticatedPath.HOME,
+  },
+  {
+    name: 'Produções',
     icon: <HomeOutlined />,
     element: <Home />,
     path: EAuthenticatedPath.HOME,
