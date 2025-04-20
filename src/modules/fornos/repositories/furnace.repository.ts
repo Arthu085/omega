@@ -1,11 +1,10 @@
 import { Repository } from '@/core/http/repository';
 
-import { FornosDto } from '../domain/dto/fornos.dto';
-import { FurnaceEntity } from '../domain/entities/furnace.entity';
 import { ID, IPaginationResponse } from '@/shared/domain';
 import { isArray } from '@/shared/utils';
 import { FornosListDTO } from '../domain/dto/fornos-list.dto';
-import { Fornos } from '../pages/fornos';
+import { FornosDto } from '../domain/dto/fornos.dto';
+import { FurnaceEntity } from '../domain/entities/furnace.entity';
 
 export class FurnaceRepository extends Repository {
   static instance: FurnaceRepository;
@@ -21,16 +20,13 @@ export class FurnaceRepository extends Repository {
   }
 
   public async list(params: FornosListDTO): Promise<IPaginationResponse<FurnaceEntity>> {
-    const { status, data: response } = await this.http.get<IPaginationResponse<FurnaceEntity>>(
-      '/',
-      {
-        params: {
-          ...params.filter,
-          ...params.pagination,
-        },
+    const { status, data: response } = await this.http.get<IPaginationResponse<FurnaceEntity>>('', {
+      params: {
+        ...params.filter,
+        ...params.pagination,
       },
-    );
-    
+    });
+
     if (this.isOK(status)) {
       const { pages, total, data } = response;
 
