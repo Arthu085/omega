@@ -61,7 +61,7 @@ export class FurnaceRepository extends Repository {
   }
 
   public async update(id: ID, record: FornosDto): Promise<FurnaceEntity> {
-    const { status, data } = await this.http.patch<FurnaceEntity, FornosDto>(`/${id}`, record);
+    const { status, data } = await this.http.put<FurnaceEntity, FornosDto>(`/update/${id}`, record);
 
     if (this.isOK(status)) return new FurnaceEntity(data);
 
