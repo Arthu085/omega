@@ -45,7 +45,7 @@ export function FurnaceCreateModal({
         if (data && id) {
             const furnace = {
                 nome: formData.nome,
-                nroForno: formData.nroForno,
+                nro_forno: formData.nro_forno,
             };
 
             furnaceRepository
@@ -83,7 +83,7 @@ export function FurnaceCreateModal({
                         <ControlledText label='Nome' name='nome' control={control} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ControlledText label='Número do forno' name='nroForno' control={control} />
+                        <ControlledText label='Número do forno' name='nro_forno' control={control} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} style={{ marginTop: 16 }}>
