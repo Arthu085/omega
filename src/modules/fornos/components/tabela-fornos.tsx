@@ -39,7 +39,7 @@ export function FurnaceListTable({
 
     const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
         nome: { label: 'Nome', value: true },
-        nro_forno: { label: 'Número de identificação', value: true },
+        nroForno: { label: 'Número de identificação', value: true },
         status: { label: 'Status', value: true },
         situacao: { label: 'Situacao', value: true }
     });
@@ -94,11 +94,11 @@ export function FurnaceListTable({
             },
         },
         {
-            name: 'nro_forno',
-            label: toggleColumns['nro_forno'].label,
+            name: 'nroForno',
+            label: toggleColumns['nroForno'].label,
             options: {
                 sortThirdClickReset: true,
-                display: toggleColumns['nro_forno'].value,
+                display: toggleColumns['nroForno'].value,
             },
         },
         {

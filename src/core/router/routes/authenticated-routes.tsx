@@ -8,7 +8,7 @@ import { Navigate } from 'react-router-dom';
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
 
-import { FurnaceIcon } from '@/modules/fornos/Icon/furnaceIcon';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
 import { EAbilityCodes } from '@/modules/role/domain';
