@@ -83,7 +83,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Clientes',
     icon: <AccountCircleSharp />,
-    path: EAuthenticatedPath.CLIENTS,
+    path: EAuthenticatedPath.FUNCIONARIOS,
     ability: EAbilityCodes.CLIENTS,
     element: <RequiredAbility code={EAbilityCodes.ROLES} />,
     children: [

@@ -3,7 +3,7 @@ export enum EAuthenticatedPath {
   FORNOS = '/fornos',
   DEVICE = '/dispositivos',
   HISTORY = '/historico',
-  CLIENTS = '/clientes',
+  FUNCIONARIOS = '/funcionarios',
   USERS = '/usuarios',
   USER_SETTINGS = '/configuracoes-do-usuario',
 }
