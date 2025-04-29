@@ -1,6 +1,6 @@
 // import { useAuth } from '@/modules/auth/hooks';
 // import { useProductivePhaseListParams } from '@/modules/company/hooks/productive-phase-list-params.hook';
-import { Page, PageCard, PageHeader, PageTitle } from '@/shared/components';
+import { LinkButton, Page, PageButtons, PageHeader, PageTitle } from '@/shared/components';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 // import useSWR from 'swr';
 // import { ProductivePhaseListTable } from '../components/productive-phase-list-table';
@@ -43,13 +43,18 @@ export function Home() {
   return (
     <Page>
       <PageHeader>
-        <PageTitle toHome>Meus Dispositivos</PageTitle>
+        <PageTitle toHome>Minhas Produções</PageTitle>
+        <PageButtons>
+          <LinkButton to='./novo' variant='contained' size='large' sx={{ minWidth: '180px' }}>
+            Nova Produção
+          </LinkButton>
+        </PageButtons>
         <Grid spacing={3} container>
           <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
-                  Total de alarmes
+                  Total de produções
                 </Typography>
                 <Typography variant='h5' color={'primary'}>
                   {cards.countAllAssets}
@@ -58,7 +63,7 @@ export function Home() {
             </Card>
           </Grid>
 
-          <Grid xs={12} md={4} item>
+          {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
@@ -69,9 +74,9 @@ export function Home() {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid> */}
 
-          <Grid xs={12} md={4} item>
+          {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
               <CardContent>
                 <Typography variant='h6' component='div'>
@@ -82,16 +87,24 @@ export function Home() {
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageHeader>
 
-      <PageCard sx={{ flexGrow: 1 }}>
+
+      {/* 
+      {data && data.data && data.data.length > 0 && (
+        <Grid item xs={12}>
+          <AlarmLogTable logs={data.data} />
+        </Grid>
+      )} */}
+
+      {/* <PageCard sx={{ flexGrow: 1 }}> 
         <Grid spacing={2} container>
           <Grid md={12} item>
-            <Typography variant='h6'>Alarmes</Typography>
+            <Typography variant='h6'>Produções</Typography>
           </Grid>
-          {/* <Grid md={6} item>
+          <Grid md={6} item>
             <Grid item md={12}>
               <ControlledDebounce name='level' control={control} label='Nível' fullWidth />
             </Grid>
@@ -100,8 +113,8 @@ export function Home() {
             <Grid item md={12}>
               <ControlledDebounce name='searchText' control={control} label='Procurar' fullWidth />
             </Grid>
-          </Grid> */}
-          {/* <Grid md={12} item>
+          </Grid> 
+           <Grid md={12} item>
             <AlarmCardProps
               name="name"
               description="Descrição breve"
@@ -109,9 +122,9 @@ export function Home() {
               onHistory={() => console.log("Histórico")}
               onRename={() => console.log("Renomear")}
             />
-          </Grid> */}
+          </Grid> 
         </Grid>
-      </PageCard>
+      </PageCard> */}
     </Page>
   );
 }

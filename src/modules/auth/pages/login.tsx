@@ -1,25 +1,22 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { MailOutline } from '@mui/icons-material';
+import { IconButton, InputAdornment, Stack } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MailOutline } from '@mui/icons-material';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link as LinkRouter } from 'react-router-dom';
-import { IconButton, InputAdornment, Link, Stack } from '@mui/material';
 
-import { EUnauthenticatedPath } from '@/core/router';
 
 import { formatErrorForNotification } from '@/shared/utils';
 
 import {
-  UnauthenticatedContentAlert,
   IUnauthenticatedContentAlert,
+  UnauthenticatedContentAlert,
   UnauthenticatedContentHeader,
 } from '@/shared/layout';
 
 import {
-  LoadingButton,
-  ControlledCheckbox,
   ControlledPassword,
   ControlledText,
+  LoadingButton
 } from '@shared/components';
 
 import { LoginData, loginSchema } from '../domain';
@@ -33,8 +30,7 @@ export function Login() {
   const { control, handleSubmit } = useForm<LoginData>({
     defaultValues: {
       email: '',
-      password: '',
-      remember: false,
+      senha: '',
     },
     resolver: zodResolver(loginSchema),
   });
@@ -79,9 +75,7 @@ export function Login() {
           }}
         />
 
-        <ControlledPassword label='Senha' name='password' size='medium' control={control} />
-
-        <ControlledCheckbox label='Lembrar-me' name='remember' control={control} />
+        <ControlledPassword label='Senha' name='senha' size='medium' control={control} />
 
         <LoadingButton
           loading={loading}
@@ -94,9 +88,6 @@ export function Login() {
         </LoadingButton>
       </Stack>
 
-      <Link color='text.secondary' component={LinkRouter} to={EUnauthenticatedPath.RECOVER}>
-        Esqueceu a senha?
-      </Link>
     </>
   );
 }

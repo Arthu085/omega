@@ -37,7 +37,6 @@ export function redirect(message?: string) {
           EUnauthenticatedPath.SIGN_UP,
           EUnauthenticatedPath.LOGIN,
           EUnauthenticatedPath.RECOVER,
-          EUnauthenticatedPath.RESET,
         ].includes(('/' + path) as EUnauthenticatedPath),
       )
   ) {

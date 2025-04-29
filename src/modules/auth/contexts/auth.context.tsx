@@ -1,26 +1,25 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { ReactNode, createContext, useReducer, useState, useEffect, useMemo } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 
 import { EUnauthenticatedPath } from '@/core/router';
 
 import {
-  IAuth,
-  IUseAuth,
-  IAuthAction,
   EAuthAction,
-  LoginResponseDTO,
+  IAuth,
+  IAuthAction,
+  IUseAuth,
   LoginRequestDTO,
-  RecoverRequestDTO,
-  ResetRequestDTO,
+  LoginResponseDTO
 } from '../domain';
 import { AuthRepository } from '../repositories';
-
-interface Props {
-  children: ReactNode;
-}
-
 export const AuthContext = createContext<IUseAuth>({} as IUseAuth);
 
 function authReducer(state: IAuth, action: IAuthAction) {
@@ -42,7 +41,7 @@ function authReducer(state: IAuth, action: IAuthAction) {
   return states[type] as IAuth;
 }
 
-export function AuthProvider({ children }: Props) {
+export function AuthProvider({ children }: PropsWithChildren) {
   const repository = new AuthRepository();
 
   const navigate = useNavigate();
@@ -50,10 +49,11 @@ export function AuthProvider({ children }: Props) {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [_auth, setLocalStorage, clearLocalStorage] = useLocalStorage<LoginResponseDTO>(
-    '@omega/auth',
-    { token: '' },
-  );
+  const [_auth, setLocalStorage, clearLocalStorage] =
+    useLocalStorage<LoginResponseDTO>('@omega/auth', {
+      token: '',
+      refreshToken: '',
+    });
 
   const [state, dispatch] = useReducer(authReducer, {
     authenticated: false,
@@ -76,7 +76,6 @@ export function AuthProvider({ children }: Props) {
       navigate(location ?? '/');
     } catch {
       dispatch({ type: EAuthAction.LOGOUT });
-      localStorage.removeItem('email');
       clearLocalStorage();
     } finally {
       setLoading(false);
@@ -87,11 +86,15 @@ export function AuthProvider({ children }: Props) {
     try {
       setLoading(true);
 
-      const auth = await repository.login(data);
+      const { token, refreshToken } =
+        await repository.login(data);
 
-      setLocalStorage(auth);
+      setLocalStorage({
+        token,
+        refreshToken: refreshToken,
+      });
 
-      const user = await repository.check()
+      const user = await repository.check();
 
       dispatch({ type: EAuthAction.LOGIN, user });
 
@@ -110,36 +113,11 @@ export function AuthProvider({ children }: Props) {
     setLoading(true);
 
     dispatch({ type: EAuthAction.LOGOUT });
-    localStorage.removeItem('email');
     clearLocalStorage();
 
     navigate(EUnauthenticatedPath.LOGIN);
 
     setLoading(false);
-  }
-
-  async function recover(data: RecoverRequestDTO) {
-    try {
-      setLoading(true);
-
-      const message = await repository.recover(data);
-
-      return message;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function reset(data: ResetRequestDTO) {
-    try {
-      setLoading(true);
-
-      const message = await repository.reset(data);
-
-      return message;
-    } finally {
-      setLoading(false);
-    }
   }
 
   async function refreshUser() {
@@ -158,19 +136,17 @@ export function AuthProvider({ children }: Props) {
     }
   }, [state]);
 
-  const value = useMemo(
-    () => ({
+  const value = useMemo(() => {
+
+    return {
       login,
       logout,
-      recover,
-      reset,
       loading,
-      confirm,
       refreshUser,
+      confirm,
       ...state,
-    }),
-    [loading, state],
-  );
+    };
+  }, [loading, state]);
 
-  return <AuthContext.Provider value={value}> {children} </AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

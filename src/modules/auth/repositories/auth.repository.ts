@@ -1,13 +1,7 @@
 import { Repository } from '@/core/http/repository';
 import { User } from '@/modules/user/domain';
 
-import {
-  LoginRequestDTO,
-  ResetRequestDTO,
-  LoginResponseDTO,
-  RecoverRequestDTO,
-  SignUpDTO,
-} from '../domain';
+import { LoginRequestDTO, LoginResponseDTO, SignUpDTO } from '../domain';
 import { ConfirmRequestDTO } from '../domain/dto/confirm-request.dto';
 
 export class AuthRepository extends Repository {
@@ -53,33 +47,6 @@ export class AuthRepository extends Repository {
 
     throw new Error('Ops, algo inesperado aconteceu!');
   }
-
-  public async recover(recover: RecoverRequestDTO): Promise<string> {
-    const { status, data } = await this.http.post<string, RecoverRequestDTO>(
-      '/recover-password',
-      recover,
-    );
-
-    if (this.isOK(status)) {
-      return data;
-    }
-
-    throw new Error('Ops, algo inesperado aconteceu!');
-  }
-
-  public async reset(reset: ResetRequestDTO): Promise<string> {
-    const { status, data } = await this.http.patch<string, ResetRequestDTO>(
-      '/reset-password',
-      reset,
-    );
-
-    if (this.isOK(status)) {
-      return data;
-    }
-
-    throw new Error('Ops, algo inesperado aconteceu!');
-  }
-
   public async confirm(confirm: ConfirmRequestDTO): Promise<string> {
     const { status, data } = await this.http.patch<string, ConfirmRequestDTO>(
       '/validate-account',

@@ -24,7 +24,7 @@ interface Props {
 }
 
 function accessPermission(user?: any, reference?: any): boolean {
-  if (user?.role.reference === 'ADMIN') return true;
+  if (user?.roles.roleName === 'ROLE_ADMIN') return true;
   if (!reference) return true;
 
   return (
