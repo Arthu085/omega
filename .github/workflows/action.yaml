@@ -20,7 +20,7 @@ jobs:
           node-version: '22.12'
 
       - name: Instalar dependências
-        run: npm i
+        run: npm install
 
       - name: Buildar o projeto
         run: npm run build
