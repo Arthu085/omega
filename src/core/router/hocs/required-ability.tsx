@@ -1,4 +1,3 @@
-import { useAuth } from '@/modules/auth/hooks';
 import { EAbilityAction, EAbilityCodes } from '@/modules/role/domain';
 import { Outlet } from 'react-router-dom';
 

@@ -1,6 +1,5 @@
 // import { useAuth } from '@/modules/auth/hooks';
 // import { useProductivePhaseListParams } from '@/modules/company/hooks/productive-phase-list-params.hook';
-import { Cards } from '@/modules/home/repositories/home-repository';
 import { Page, PageButtons, PageCard, PageHeader, PageTitle } from '@/shared/components';
 import { Box, Button } from '@mui/material';
 // import useSWR from 'swr';
@@ -21,15 +20,15 @@ import { FurnaceListFilter } from './create/components/fornos-list-filter';
 
 export function Fornos() {
     const [isModalOpen, setModalOpen] = useState(false);
-    const [cards] = useState<Cards>({
-        countAllAssets: 0,
-        countAllSubsetsCompany: 0,
-    });
+    // const [cards] = useState<Cards>({
+    //     countAllAssets: 0,
+    //     countAllSubsetsCompany: 0,
+    // });
 
 
 
     const { user } = useAuth();
-    const { control, watch } = useForm({
+    const { watch } = useForm({
         defaultValues: {
             searchText: '',
             level: undefined,
