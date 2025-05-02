@@ -1,44 +1,211 @@
-// import {
-//     Table,
-//     TableBody,
-//     TableCell,
-//     TableContainer,
-//     TableHead,
-//     TableRow,
-//     Paper,
-//   } from '@mui/material';
-//   import { formatDate } from '@/shared/utils';
-//   import { AlarmLog } from '../domain/entities/AlarmLog';
-//   import { EAlarmLogTranslate } from '../domain/enums/EAlarmLogAction';
-  
-//   interface Props {
-//     logs: AlarmLog[];
-//   }
-  
-//   export function AlarmLogTable({ logs }: Props) {
-//     return (
-//       <TableContainer component={Paper}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>Data</TableCell>
-//               <TableCell>Ação</TableCell>
-//               <TableCell>Mensagem</TableCell>
-//               <TableCell>Usuário</TableCell>
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {logs.map((log) => (
-//               <TableRow key={log.id}>
-//                 <TableCell>{formatDate(log.executedAt, true)}</TableCell>
-//                 <TableCell>{EAlarmLogTranslate[log.action]}</TableCell>
-//                 <TableCell>{log.message}</TableCell>
-//                 <TableCell>{log.users?.name}</TableCell>
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//     );
-//   }
-  
+import { MUIDataTableColumnDef, MUIDataTableOptions } from 'mui-datatables';
+import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import {
+    DataTable,
+   // DataTableColumnMenu,
+   // DataTableToggleColumns,
+} from '@/shared/components';
+import { IOption, IPaginationRequest, IPaginationResponse } from '@/shared/domain';
+
+import { ProductionListDTO } from '../domain/dto/production-list.dto';
+import { ProductionEntity } from '../domain/entities/production.entity';
+import { EStatusProduction } from '../domain/enums/status-production.enum';
+
+interface ProductionListTableProps {
+    data: { data: ProductionEntity[]; total: number } | undefined;
+    isLoading: boolean;
+    error: string | null;
+    mutate: () => Promise<IPaginationResponse<ProductionEntity> | undefined>;
+    params: ProductionListDTO;
+    onChangePagination: (pagination: IPaginationRequest) => void;
+}
+
+export function ProductionListTable({
+    data,
+    isLoading,
+    error,
+    mutate,
+    params,
+    onChangePagination,
+}: ProductionListTableProps) {
+    const [editData, setEditData] = useState<any>(null);
+    const [idEditData, setIdEditData] = useState<any>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);  
+    const [deleteData, setDeleteData] = useState<ProductionEntity | null>(null); 
+
+    const navigate = useNavigate();
+
+    const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
+        nome: { label: 'Nome', value: true },
+        nroForno: { label: 'Número de identificação', value: true },
+        status: { label: 'Status', value: true },
+        situacao: { label: 'Situacao', value: true }
+    });
+
+    /*function handleToggleColumn(column: string) {
+        setToggleColumns((prev) => ({
+            ...prev,
+            [column]: {
+                label: prev[column].label,
+                value: !prev[column].value,
+            },
+        }));
+    }*/
+
+    const renderStatusCircle = (status: string) => {
+        const circleStyle = {
+            width: '10px',
+            height: '10px',
+            borderRadius: '50%',
+            display: 'inline-block',
+            margin: '0 5px',
+        };
+
+        if (status === EStatusProduction.EXECUTANDO) {
+            return <span style={{ ...circleStyle, backgroundColor: 'green' }} />;
+        } else if (status === EStatusProduction.PARADO) {
+            return <span style={{ ...circleStyle, backgroundColor: 'yellow' }} />;
+        } else if (status === EStatusProduction.FINALIZADO) {
+            return <span style={{ ...circleStyle, backgroundColor: 'red' }} />;
+        }
+
+        return null;
+    };
+
+
+    const columns: Array<MUIDataTableColumnDef> = [
+        {
+            name: 'nome',
+            label: toggleColumns['nome'].label,
+            options: {
+                sortThirdClickReset: true,
+                display: toggleColumns['nome'].value,
+            },
+        },
+        {
+            name: 'nroForno',
+            label: toggleColumns['nroForno'].label,
+            options: {
+                sortThirdClickReset: true,
+                display: toggleColumns['nroForno'].value,
+            },
+        },
+        {
+            name: 'status',
+            label: toggleColumns['status'].label,
+            options: {
+                sortThirdClickReset: true,
+                display: toggleColumns['status'].value,
+                customBodyRender: (status: string) => {
+                    return renderStatusCircle(status);
+                },
+            },
+        },
+        {
+            name: 'situacao',
+            label: toggleColumns['situacao'].label,
+            options: {
+                sortThirdClickReset: true,
+                display: toggleColumns['situacao'].value,
+            },
+        },
+        /*{
+            name: 'id',
+            label: ' ',
+            options: {
+                sort: false,
+                customHeadLabelRender: () => {
+                    return (
+                        <DataTableToggleColumns
+                            toggleColumns={toggleColumns}
+                            onToggle={handleToggleColumn}
+                            setToggleColumns={setToggleColumns}
+                        />
+                    );
+                },
+                customBodyRender: (id: number) => {
+                    const items: Array<IMenu> = [
+                        {
+                            label: 'Editar Dados',
+                            action: () => editPhase(id),
+                        },
+                        {
+                            label: 'Excluir',
+                            action: () => deletePhase(id), // Ação de exclusão
+                        },
+                    ];
+
+
+                    return <DataTableColumnMenu items={items} />;
+                },
+            },
+        },*/
+    ];
+
+    const options: MUIDataTableOptions = {
+        page: (params.pagination.skip ?? 1) - 1,
+        rowsPerPage: params.pagination.take,
+        count: data?.total,
+
+        setRowProps: () => ({ style: { cursor: 'pointer' } }),
+
+        onRowClick: (_, { dataIndex }) => {
+            const { id } = data?.data[dataIndex] as any;
+
+            if (id) navigate(`./${id}`);
+        },
+
+        onChangePage: (currentPage: number) =>
+            onChangePagination({
+                skip: currentPage + 1,
+            }),
+
+        onChangeRowsPerPage: (numberOfRows: number) =>
+            onChangePagination({
+                take: numberOfRows,
+            }),
+
+        onColumnSortChange: (changedColumn: string, direction: 'asc' | 'desc' | 'none') => {
+            if (direction === 'none') {
+                onChangePagination({
+                    orderBy: undefined,
+                    ordering: undefined,
+                });
+                return;
+            }
+
+            onChangePagination({
+                orderBy: changedColumn,
+                ordering: direction,
+            });
+        },
+    };
+
+    /*const handleCloseModal = () => {
+        setIsOpen(false)
+        setIdEditData(null)
+        setEditData(null)
+        mutate()
+    }
+
+    const handleCloseDeleteModal = () => {
+        setIsOpenDeleteModal(false);
+        setDeleteData(null);
+        mutate();
+    };
+*/
+    return (
+        <Fragment>
+            <DataTable
+                loading={isLoading}
+                data={data ? data.data : []}
+                columns={columns}
+                options={options}
+                error={error}
+            />
+        </Fragment>
+    );
+}

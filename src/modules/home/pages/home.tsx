@@ -1,11 +1,18 @@
 // import { useAuth } from '@/modules/auth/hooks';
 // import { useProductivePhaseListParams } from '@/modules/company/hooks/productive-phase-list-params.hook';
-import { LinkButton, Page, PageButtons, PageHeader, PageTitle } from '@/shared/components';
+import { PageCard, LinkButton, Page, PageButtons, PageHeader, PageTitle } from '@/shared/components';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 // import useSWR from 'swr';
 // import { ProductivePhaseListTable } from '../components/productive-phase-list-table';
 import { useState } from 'react';
 import { Cards } from '../repositories/home-repository';
+import { useAuth } from '@/modules/auth/hooks';
+import { useForm } from 'react-hook-form';
+import useSWR from 'swr';
+import { ProductionListTable } from '../components/production-table';
+import { useProductionListParams } from '../hook/production-list-params.hook';
+import { HomeRepository } from '../repositories/home-repository';
 // import { useForm } from 'react-hook-form';
 
 export function Home() {
@@ -13,6 +20,26 @@ export function Home() {
     countAllAssets: 0,
     countAllSubsetsCompany: 0,
   });
+
+  const { user } = useAuth();
+    const { watch } = useForm({
+        defaultValues: {
+            searchText: '',
+            level: undefined,
+        },
+    });
+    const searchText = watch('searchText');
+    const level = watch('level');
+    const repository = new HomeRepository();
+    const { params, onChangePagination } = useProductionListParams();
+    const { data, isLoading, error, mutate } = useSWR(
+        [
+            `fornos-${user?.id}`,
+            { ...params, filter: { search: searchText, level: level } },
+        ],
+        ([_url, value]) => repository.list(value),
+    );
+
   // const { user } = useAuth();
   // const { control, watch } = useForm({
   //   defaultValues: {
@@ -62,6 +89,20 @@ export function Home() {
               </CardContent>
             </Card>
           </Grid>
+          <Grid xs={12} md={4} item>
+            <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
+              <CardContent>
+                <Typography variant='h6' component='div'>
+                  Total de produções ativas
+                </Typography>
+                <Typography variant='h5' color={'primary'}>
+                  {cards.countAllAssets}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          
 
           {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
@@ -90,6 +131,18 @@ export function Home() {
           </Grid> */}
         </Grid>
       </PageHeader>
+      <PageCard sx={{ flexGrow: 1 }}>
+              <Box sx={{ width: '100%' }}>
+                  <ProductionListTable
+                      data={data}
+                      isLoading={isLoading}
+                      error={error}
+                      mutate={mutate}
+                      params={params}
+                      onChangePagination={onChangePagination}
+                  />
+            </Box>
+          </PageCard>
 
 
       {/* 
