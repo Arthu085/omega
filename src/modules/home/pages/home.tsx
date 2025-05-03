@@ -1,10 +1,6 @@
-// import { useAuth } from '@/modules/auth/hooks';
-// import { useProductivePhaseListParams } from '@/modules/company/hooks/productive-phase-list-params.hook';
 import { PageCard, LinkButton, Page, PageButtons, PageHeader, PageTitle } from '@/shared/components';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
-import { Box, Button } from '@mui/material';
-// import useSWR from 'swr';
-// import { ProductivePhaseListTable } from '../components/productive-phase-list-table';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { Cards } from '../repositories/home-repository';
 import { useAuth } from '@/modules/auth/hooks';
@@ -13,7 +9,6 @@ import useSWR from 'swr';
 import { ProductionListTable } from '../components/production-table';
 import { useProductionListParams } from '../hook/production-list-params.hook';
 import { HomeRepository } from '../repositories/home-repository';
-// import { useForm } from 'react-hook-form';
 
 export function Home() {
   const [cards] = useState<Cards>({
@@ -39,33 +34,6 @@ export function Home() {
         ],
         ([_url, value]) => repository.list(value),
     );
-
-  // const { user } = useAuth();
-  // const { control, watch } = useForm({
-  //   defaultValues: {
-  //     searchText: '',
-  //     level: undefined,
-  //   },
-  // });
-  // const searchText = watch('searchText');
-  // const level = watch('level');
-  // const productivePhaseRepository = new ProductivePhaseRepository();
-  // const homeRepository = new HomeRepository();
-  // const { params, onChangePagination } = useProductivePhaseListParams();
-  // const { data, isLoading, error, mutate } = useSWR(
-  //   [
-  //     `productive-phase-list-${user?.id}`,
-  //     { ...params, filter: { search: searchText, level: level } },
-  //   ],
-  //   ([_url, value]) => productivePhaseRepository.list(value),
-  // );
-
-  // useEffect(() => {
-  //   homeRepository.get().then((value) => {
-  //     setCards(value);
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <Page>
