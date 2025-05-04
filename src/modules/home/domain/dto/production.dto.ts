@@ -2,13 +2,7 @@ import { EStatusProduction } from "../enums/status-production.enum";
 
 export interface ProductionDTO {
   id?: number;
-  turno?: {
-    id?: number;
-  };
   forno?: {
-    id?: number;
-  };
-  usuario: {
     id?: number;
   };
   loteFrita?: number;
@@ -17,8 +11,6 @@ export interface ProductionDTO {
   temperatura?: number;
   oleo?: number;
   oxigenio?: number;
-  horarioInicio?: string;
-  horarioFim?: string;
   peso?: number;
   rpm?: number;
   tMovel?: number;
