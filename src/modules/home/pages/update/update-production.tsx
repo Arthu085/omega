@@ -143,7 +143,7 @@ export function ProductionUpdate() {
     return (
         <Page>
             <PageHeader>
-                <PageTitle>Editar Empresa</PageTitle>
+                <PageTitle>Editar Produção</PageTitle>
 
                 <PageButtons display='flex' flexWrap='wrap'>
                     {/* {canDelete && (
