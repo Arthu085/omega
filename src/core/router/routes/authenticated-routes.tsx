@@ -64,18 +64,18 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Funcionários',
     icon: <HomeOutlined />,
-    element: <Home />,
+    element: <UserList />,
     path: EAuthenticatedPath.FUNCIONARIOS,
     children: [
-       {
-         index: true,
-         name: 'Funcionários',
-         element: <UserList />,
-       },
+      // {
+         //index: true,
+     //    name: 'Funcionários',
+        // element: <UserList />,
+    //   },
       {
         name: 'Novos Usuario',
         hidden: true,
-        path: 'novoUser',
+        path: 'novo',
         // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
         children: [
           {

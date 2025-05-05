@@ -4,8 +4,8 @@ export class User {
   id: number = 0;
   email: string = '';
   name: string = '';
-  username: string = '';
-  hash_password: string = '';
+  lastname: string = '';
+  password: string = '';
 
   role?: ERolesUser;
   createdAt?: string;
