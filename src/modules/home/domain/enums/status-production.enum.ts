@@ -1,7 +1,7 @@
 export enum EStatusProduction {
     PARADO = 'PARADO',
     EXECUTANDO = 'EXECUTANDO',
-    FINALIZADO = 'FINALIZADO'
+    FINALIZADA = 'FINALIZADA'
 }
 
 export enum EStatusProductionTranslate {

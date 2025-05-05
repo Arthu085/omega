@@ -1,14 +1,14 @@
 import { PageCard, LinkButton, Page, PageButtons, PageHeader, PageTitle } from '@/shared/components';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Stack, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import { useState } from 'react';
-import { Cards } from '../repositories/home-repository';
+import { Cards, ProductionRepository } from '../repositories/home-repository';
 import { useAuth } from '@/modules/auth/hooks';
 import { useForm } from 'react-hook-form';
 import useSWR from 'swr';
 import { ProductionListTable } from '../components/production-table';
 import { useProductionListParams } from '../hook/production-list-params.hook';
-import { HomeRepository } from '../repositories/home-repository';
+import { ProductionListFilter } from '../components/production-list-filter';
 
 export function Home() {
   const [cards] = useState<Cards>({
@@ -17,23 +17,23 @@ export function Home() {
   });
 
   const { user } = useAuth();
-    const { watch } = useForm({
-        defaultValues: {
-            searchText: '',
-            level: undefined,
-        },
-    });
-    const searchText = watch('searchText');
-    const level = watch('level');
-    const repository = new HomeRepository();
-    const { params, onChangePagination } = useProductionListParams();
-    const { data, isLoading, error, mutate } = useSWR(
-        [
-            `fornos-${user?.id}`,
-            { ...params, filter: { search: searchText, level: level } },
-        ],
-        ([_url, value]) => repository.list(value),
-    );
+  const { watch } = useForm({
+    defaultValues: {
+      searchText: '',
+      level: undefined,
+    },
+  });
+  const searchText = watch('searchText');
+  const level = watch('level');
+  const repository = new ProductionRepository();
+  const { params, onChangePagination } = useProductionListParams();
+  const { data, isLoading, error, mutate } = useSWR(
+    [
+      `producoes-${user?.id}`,
+      { ...params, filter: { search: searchText, level: level } },
+    ],
+    ([_url, value]) => repository.list(value),
+  );
 
   return (
     <Page>
@@ -70,7 +70,7 @@ export function Home() {
             </Card>
           </Grid>
 
-          
+
 
           {/* <Grid xs={12} md={4} item>
             <Card variant='outlined' sx={{ borderRadius: 2, flexGrow: 1, boxShadow: 1 }}>
@@ -99,18 +99,22 @@ export function Home() {
           </Grid> */}
         </Grid>
       </PageHeader>
+
       <PageCard sx={{ flexGrow: 1 }}>
-              <Box sx={{ width: '100%' }}>
-                  <ProductionListTable
-                      data={data}
-                      isLoading={isLoading}
-                      error={error}
-                      mutate={mutate}
-                      params={params}
-                      onChangePagination={onChangePagination}
-                  />
-            </Box>
-          </PageCard>
+        <Box sx={{ width: '100%' }}>
+          <Stack spacing={2}>
+            <ProductionListFilter />
+            <ProductionListTable
+              data={data}
+              isLoading={isLoading}
+              error={error}
+              mutate={mutate}
+              params={params}
+              onChangePagination={onChangePagination}
+            />
+          </Stack>
+        </Box>
+      </PageCard>
 
 
       {/* 

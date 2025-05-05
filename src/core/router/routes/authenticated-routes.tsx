@@ -10,6 +10,7 @@ import { IRoute } from '../domain/interfaces/route.interface';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
+import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -21,12 +22,12 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Produções',
     path: EAuthenticatedPath.PRODUCAO,
-    icon: <HomeOutlined/>,
+    icon: <HomeOutlined />,
     children: [
       {
         name: 'Produções',
         index: true,
-        element: <Home/>
+        element: <Home />
       },
       {
         name: 'Nova Produção',
@@ -36,10 +37,22 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
           {
             name: 'Nova Produção',
             index: true,
-            element: <CreateProduction/>
+            element: <CreateProduction />
           }
         ]
-      }
+      },
+      {
+        name: 'Ver Produção',
+        path: ':id',
+        hidden: true,
+        children: [
+          {
+            name: 'Ver Produção',
+            index: true,
+            element: <ProductionUpdate />,
+          },
+        ],
+      },
     ]
   },
   {
