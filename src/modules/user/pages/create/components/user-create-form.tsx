@@ -2,6 +2,7 @@ import { Divider, Grid, Typography } from '@mui/material';
 import { ControlledPassword, ControlledText } from '@/shared/components';
 import { useFormContext } from 'react-hook-form';
 import { UserCreateData } from '@/modules/user/domain';
+import { EStatusUser } from '@/modules/user/domain/enums/user-status';
 
 export function UserForm() {
   const { control } = useFormContext<UserCreateData>();
@@ -20,11 +21,7 @@ export function UserForm() {
       </Grid>
 
       <Grid item md={3} sm={6} xs={12}>
-        <ControlledText label='Nome de Exibição' name='username' control={control} />
-      </Grid>
-
-      <Grid item md={3} sm={6} xs={12}>
-        <ControlledText label='Matrícula' name='registration' control={control} />
+        <ControlledText label='sobrenome' name='lastname' control={control} />
       </Grid>
 
       <Grid item md={6} sm={12} xs={12}>
@@ -33,6 +30,14 @@ export function UserForm() {
 
       <Grid item md={6} sm={12} xs={12}>
         <ControlledPassword control={control} name='password' label='Senha' />
+      </Grid>
+
+      <Grid item md={6} sm={12} xs={12}>
+        <ControlledText control={control} name='função' label='role' />
+      </Grid>
+
+      <Grid item md={6} sm={12} xs={12}>
+        <ControlledText control={control} name='status' label='status' defaultValue={EStatusUser.ACTIVE}/>
       </Grid>
     </Grid>
   );

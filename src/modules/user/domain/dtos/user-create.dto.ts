@@ -1,12 +1,11 @@
-import { EStatus } from "@/shared/domain";
+import { ERolesUser } from "../enums/user-roles";
+import { EStatusUser } from "../enums/user-status";
 
 export interface UserCreateDTO {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    status: EStatus;
-    companyId?: number;
-    roleId?: number;
-    registration?: string | null;
+  nome?: string;
+  lastname?: string,
+  status?: EStatusUser;
+  email?: string,
+  senha?: string
+  role?: ERolesUser
 }

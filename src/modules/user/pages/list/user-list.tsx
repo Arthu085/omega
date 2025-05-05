@@ -16,11 +16,11 @@ export function UserList() {
         <PageTitle toHome>Usuários</PageTitle>
 
         <PageButtons>
-          <LinkButton to='./novo' variant='contained' size='large' sx={{ minWidth: '180px' }}>
-            Novo Usuário
+          <LinkButton to='./novoUser' variant='contained' size='large' sx={{ minWidth: '180px' }}>
+            Novo fdsaf
           </LinkButton>
         </PageButtons>
-      </PageHeader>
+      </PageHeader>r
 
       <PageCard sx={{ flexGrow: 1 }}>
         <UserListFilter />

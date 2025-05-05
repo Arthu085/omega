@@ -12,7 +12,7 @@ import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
 import { EAbilityCodes } from '@/modules/role/domain';
-import { UserList, UserUpdate } from '@/modules/user/pages';
+import { UserCreate, UserList, UserUpdate } from '@/modules/user/pages';
 import { ClockIcon } from '@mui/x-date-pickers';
 import { RequiredAbility } from '../hocs/required-ability';
 
@@ -65,7 +65,27 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
     name: 'Funcionários',
     icon: <HomeOutlined />,
     element: <Home />,
-    path: EAuthenticatedPath.HOME,
+    path: EAuthenticatedPath.FUNCIONARIOS,
+    children: [
+       {
+         index: true,
+         name: 'Funcionários',
+         element: <UserList />,
+       },
+      {
+        name: 'Novos Usuario',
+        hidden: true,
+        path: 'novoUser',
+        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
+        children: [
+          {
+            name: 'Novos Usuario',
+            index: true,
+            element: <UserCreate />,
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'Produções',
@@ -83,20 +103,20 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Clientes',
     icon: <AccountCircleSharp />,
-    path: EAuthenticatedPath.FUNCIONARIOS,
+    path: EAuthenticatedPath.USERS,
     ability: EAbilityCodes.CLIENTS,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />,
+    //element: <RequiredAbility code={EAbilityCodes.ROLES} />,
     children: [
-      {
-        index: true,
-        name: "Clientes",
-        element: <UserList />
-      },
+   //   {
+     //   index: true,
+    //    name: "Clientes",
+     //   element: <UserList />
+    //  },
       {
         name: 'Ver Usuário',
         hidden: true,
         path: ':id',
-        element: <RequiredAbility code={EAbilityCodes.USERS} />,
+       //element: <RequiredAbility code={EAbilityCodes.USERS} />,
         children: [
           {
             name: 'Ver Usuário',

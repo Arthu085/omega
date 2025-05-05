@@ -4,9 +4,8 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { CadastroFuncionarioEntity } from '../domain/entities/cadastro-funcionario.entity';
-import { FuncionarioRepository } from '../repositories/funcionario.hook';
+import { FuncionarioRepository } from '../repositories/funcionario.repository';
 import { cadastroFuncionarioDto } from '../domain/dto/cadastro-funcionarios.dto';
-import { EStatusFuncionario } from '../domain/enums/status-funcionario';
 
 const style = {
     position: 'absolute',
@@ -52,12 +51,13 @@ export function FuncionarioCreateModal({
             };
 
             funcionarioRepository
-                .update(id, furnace)
+                .update(id, funcionario)
                 .then(async () => {
                     reset();
                     toast.success('Processo principal atualizado com sucesso!');
                     onClose();
                 })
+                .catch()
                 .catch((e) => {
                     console.log(e);
                     toast.error(`Ooops! Um erro ocorreu! ${e.response?.data?.message}.`);
@@ -86,7 +86,13 @@ export function FuncionarioCreateModal({
                         <ControlledText label='Nome' name='nome' control={control} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ControlledText label='Número do forno' name='nroForno' control={control} />
+                        <ControlledText label='sobrenome' name='sobrenome' control={control} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ControlledText label='email' name='email' control={control} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ControlledText label='senha' name='senha' control={control} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12} style={{ marginTop: 16 }}>

@@ -1,7 +1,7 @@
 
 import { useConfirmDialog } from '@/shared/components';
 import { ID } from '@/shared/domain/types/id.type';
-import { FuncionarioRepository } from '../repositories/funcionario.hook';
+import { FuncionarioRepository } from '../repositories/funcionario.repository';
 
 export function useFuncionario() {
   const phaseRepository = new FuncionarioRepository();
