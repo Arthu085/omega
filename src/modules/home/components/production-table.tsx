@@ -4,14 +4,16 @@ import { useNavigate } from 'react-router-dom';
 
 import {
     DataTable,
-   // DataTableColumnMenu,
-   // DataTableToggleColumns,
+    DataTableColumnMenu,
+    DataTableToggleColumns,
 } from '@/shared/components';
-import { IOption, IPaginationRequest, IPaginationResponse } from '@/shared/domain';
+import { IMenu, IOption, IPaginationRequest, IPaginationResponse } from '@/shared/domain';
 
+import { EAuthenticatedPath } from '@/core/router';
 import { ProductionListDTO } from '../domain/dto/production-list.dto';
 import { ProductionEntity } from '../domain/entities/production.entity';
 import { EStatusProduction } from '../domain/enums/status-production.enum';
+import { useProduction } from '../hook/production.hook';
 
 interface ProductionListTableProps {
     data: { data: ProductionEntity[]; total: number } | undefined;
@@ -26,26 +28,20 @@ export function ProductionListTable({
     data,
     isLoading,
     error,
-    mutate,
     params,
     onChangePagination,
 }: ProductionListTableProps) {
-    const [editData, setEditData] = useState<any>(null);
-    const [idEditData, setIdEditData] = useState<any>(null);
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);  
-    const [deleteData, setDeleteData] = useState<ProductionEntity | null>(null); 
-
     const navigate = useNavigate();
+    const { finalizeProduction } = useProduction();
 
     const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
-        nome: { label: 'Nome', value: true },
-        nroForno: { label: 'Número de identificação', value: true },
+        nroProducao: { label: 'Número', value: true },
+        lote: { label: 'Lote', value: true },
+        loteFrita: { label: 'Lote Frita', value: true },
         status: { label: 'Status', value: true },
-        situacao: { label: 'Situacao', value: true }
     });
 
-    /*function handleToggleColumn(column: string) {
+    function handleToggleColumn(column: string) {
         setToggleColumns((prev) => ({
             ...prev,
             [column]: {
@@ -53,7 +49,12 @@ export function ProductionListTable({
                 value: !prev[column].value,
             },
         }));
-    }*/
+    }
+
+    const editProduction = (id: number) => {
+        navigate(`${EAuthenticatedPath.PRODUCAO}/${id}`)
+
+    }
 
     const renderStatusCircle = (status: string) => {
         const circleStyle = {
@@ -68,7 +69,7 @@ export function ProductionListTable({
             return <span style={{ ...circleStyle, backgroundColor: 'green' }} />;
         } else if (status === EStatusProduction.PARADO) {
             return <span style={{ ...circleStyle, backgroundColor: 'yellow' }} />;
-        } else if (status === EStatusProduction.FINALIZADO) {
+        } else if (status === EStatusProduction.FINALIZADA) {
             return <span style={{ ...circleStyle, backgroundColor: 'red' }} />;
         }
 
@@ -78,19 +79,27 @@ export function ProductionListTable({
 
     const columns: Array<MUIDataTableColumnDef> = [
         {
-            name: 'nome',
-            label: toggleColumns['nome'].label,
+            name: 'nroProducao',
+            label: toggleColumns['nroProducao'].label,
             options: {
                 sortThirdClickReset: true,
-                display: toggleColumns['nome'].value,
+                display: toggleColumns['nroProducao'].value,
             },
         },
         {
-            name: 'nroForno',
-            label: toggleColumns['nroForno'].label,
+            name: 'lote',
+            label: toggleColumns['lote'].label,
             options: {
                 sortThirdClickReset: true,
-                display: toggleColumns['nroForno'].value,
+                display: toggleColumns['lote'].value,
+            },
+        },
+        {
+            name: 'loteFrita',
+            label: toggleColumns['loteFrita'].label,
+            options: {
+                sortThirdClickReset: true,
+                display: toggleColumns['loteFrita'].value,
             },
         },
         {
@@ -105,14 +114,6 @@ export function ProductionListTable({
             },
         },
         {
-            name: 'situacao',
-            label: toggleColumns['situacao'].label,
-            options: {
-                sortThirdClickReset: true,
-                display: toggleColumns['situacao'].value,
-            },
-        },
-        /*{
             name: 'id',
             label: ' ',
             options: {
@@ -130,11 +131,11 @@ export function ProductionListTable({
                     const items: Array<IMenu> = [
                         {
                             label: 'Editar Dados',
-                            action: () => editPhase(id),
+                            action: () => editProduction(id),
                         },
                         {
-                            label: 'Excluir',
-                            action: () => deletePhase(id), // Ação de exclusão
+                            label: 'Finalizar Produção',
+                            action: () => finalizeProduction(id),
                         },
                     ];
 
@@ -142,7 +143,7 @@ export function ProductionListTable({
                     return <DataTableColumnMenu items={items} />;
                 },
             },
-        },*/
+        },
     ];
 
     const options: MUIDataTableOptions = {
@@ -183,20 +184,6 @@ export function ProductionListTable({
             });
         },
     };
-
-    /*const handleCloseModal = () => {
-        setIsOpen(false)
-        setIdEditData(null)
-        setEditData(null)
-        mutate()
-    }
-
-    const handleCloseDeleteModal = () => {
-        setIsOpenDeleteModal(false);
-        setDeleteData(null);
-        mutate();
-    };
-*/
     return (
         <Fragment>
             <DataTable

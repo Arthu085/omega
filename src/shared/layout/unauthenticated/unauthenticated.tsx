@@ -30,7 +30,7 @@ export function Unauthenticated() {
     changeThemeMode('light');
   }, [changeThemeMode]);
 
-  if (authenticated) return <Navigate to={EAuthenticatedPath.HOME} replace />;
+  if (authenticated) return <Navigate to={EAuthenticatedPath.PRODUCAO} replace />;
 
   return (
     <ThemeProvider theme={unauthenticatedTheme}>

@@ -1,117 +1,70 @@
 import {
-  AccountCircleSharp,
   HomeOutlined,
-  Settings
+  PeopleOutline,
+  AirplayOutlined
 } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
-
-import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
-import { EAbilityCodes } from '@/modules/role/domain';
-import { UserList, UserUpdate } from '@/modules/user/pages';
-import { ClockIcon } from '@mui/x-date-pickers';
-import { RequiredAbility } from '../hocs/required-ability';
+import { CreateProduction } from '@modules/home/pages/create/create-production';
+import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Redirect',
     hidden: true,
     path: '*',
-    element: <Navigate to={EAuthenticatedPath.HOME} />,
-  },
-  {
-    name: 'Página Inicial',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Fornos',
-    path: EAuthenticatedPath.FORNOS,
-    icon: <FurnaceIcon />,
-    element: <Fornos />,
-    children: [
-      // {
-      //   index: true,
-      //   name: 'Cadastro de Hierarquia',
-      //   element: <CompanyList />,
-      // },
-      {
-        name: 'Novos Fornos',
-        hidden: true,
-        path: 'novo',
-        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
-        children: [
-          {
-            name: 'Novos Fornos',
-            index: true,
-            element: <Fornos />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: 'Funcionários',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
+    element: <Navigate to={EAuthenticatedPath.PRODUCAO} />
   },
   {
     name: 'Produções',
+    path: EAuthenticatedPath.PRODUCAO,
     icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <ClockIcon />,
-    path: EAuthenticatedPath.HISTORY,
-    ability: EAbilityCodes.HISTORY,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
-  },
-  {
-    name: 'Clientes',
-    icon: <AccountCircleSharp />,
-    path: EAuthenticatedPath.CLIENTS,
-    ability: EAbilityCodes.CLIENTS,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />,
     children: [
       {
+        name: 'Produções',
         index: true,
-        name: "Clientes",
-        element: <UserList />
+        element: <Home />
       },
       {
-        name: 'Ver Usuário',
+        name: 'Nova Produção',
+        path: 'novo',
         hidden: true,
-        path: ':id',
-        element: <RequiredAbility code={EAbilityCodes.USERS} />,
         children: [
           {
-            name: 'Ver Usuário',
+            name: 'Nova Produção',
             index: true,
-            element: <UserUpdate />,
+            element: <CreateProduction />
+          }
+        ]
+      },
+      {
+        name: 'Ver Produção',
+        path: ':id',
+        hidden: true,
+        children: [
+          {
+            name: 'Ver Produção',
+            index: true,
+            element: <ProductionUpdate />,
           },
         ],
       },
-    ] // todo: hoc of required ability
+    ]
   },
   {
-    name: 'Configurações',
-    icon: <Settings />,
-    path: EAuthenticatedPath.USER_SETTINGS,
-    ability: EAbilityCodes.ROLES,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
+    name: 'Fornos',
+    path: EAuthenticatedPath.FORNO,
+    icon: <AirplayOutlined />,
+    element: <Fornos />
+  },
+  {
+    name: 'Funcionários',
+    path: EAuthenticatedPath.FUNCIONARIO,
+    icon: <PeopleOutline />,
+    element: <Home />
   }
 ];
