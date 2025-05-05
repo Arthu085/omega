@@ -1,4 +1,3 @@
-import { EAuthenticatedPath } from '@/core/router';
 import {
   LinkButton,
   LoadingButton,
@@ -8,21 +7,19 @@ import {
   PageHeader,
   PageTitle,
 } from '@/shared/components';
+import { EStatus } from '@/shared/domain';
 import { formatErrorForNotification } from '@/shared/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { UserForm } from './components/user-create-form';
-import { EStatus } from '@/shared/domain';
-import { UserCreateFilter } from './components/user-create-filter';
-import { UserRepository } from '../../repositories';
 import { UserCreateDTO, UserCreateData, userCreateSchema } from '../../domain';
+import { UserRepository } from '../../repositories';
+import { UserCreateFilter } from './components/user-create-filter';
+import { UserForm } from './components/user-create-form';
 
 export function UserCreate() {
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
   const userRepository = new UserRepository();
 
   const methods = useForm<UserCreateData>({
@@ -46,7 +43,7 @@ export function UserCreate() {
       await userRepository.create(data);
 
       toast.success('Usuário cadastrado com sucesso!');
-      navigate(EAuthenticatedPath.USERS);
+      // navigate(EAuthenticatedPath.USERS);
     } catch (error) {
       toast.error(formatErrorForNotification(error));
     } finally {
