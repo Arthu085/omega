@@ -19,7 +19,6 @@ import { UserRepository } from '../../repositories';
 import { UserCreateDTO, UserCreateData, userCreateSchema } from '../../domain';
 import { EStatusUser } from '../../domain/enums/user-status';
 import { ERolesUser } from '../../domain/enums/user-roles';
-import { UserForm } from './components/user-create-form';
 
 export function UserCreate() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,7 +78,7 @@ export function UserCreate() {
         <PageTitle toHome>Novo Usuário</PageTitle>
 
         <PageButtons>
-          <LinkButton to='/funcionarios' variant='outlined' size='large' sx={{ minWidth: '180px' }}>
+          <LinkButton to='/funcionarios' variant='outlined' size='large'>
             Cancelar
           </LinkButton>
           <LoadingButton
@@ -98,7 +97,6 @@ export function UserCreate() {
       <PageCard sx={{ flexGrow: 1 }}>
         <FormProvider {...methods}>
           <UserCreateFilter />
-          <UserForm />
         </FormProvider>
       </PageCard>
     </Page>

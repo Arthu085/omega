@@ -1,9 +1,5 @@
 export enum EAuthenticatedPath {
-  HOME = '/',
-  FORNOS = '/fornos',
-  DEVICE = '/dispositivos',
-  HISTORY = '/historico',
-  FUNCIONARIOS = '/funcionarios',
-  USERS = '/usuarios',
-  USER_SETTINGS = '/configuracoes-do-usuario',
+  PRODUCAO = '/producao',
+  FORNO = '/forno',
+  FUNCIONARIOS = '/funcionarios'
 }

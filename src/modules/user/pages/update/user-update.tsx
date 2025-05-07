@@ -1,10 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { EAuthenticatedPath } from '@/core/router';
 
 import {
   LinkButton,
@@ -24,8 +23,6 @@ import { UserUpdateForm } from './components/user-update-form';
 
 export function UserUpdate() {
   const { id } = useParams();
-
-  const navigate = useNavigate();
 
   const canDelete = true
 
@@ -53,7 +50,7 @@ export function UserUpdate() {
 
       toast.success('Usuário atualizado com sucesso!');
 
-      navigate(EAuthenticatedPath.USERS);
+      // navigate(EAuthenticatedPath.USERS);
     } catch (error) {
       toast.error(formatErrorForNotification(error));
     } finally {
@@ -87,7 +84,7 @@ export function UserUpdate() {
       });
     } catch (error) {
       toast.error(formatErrorForNotification(error));
-      navigate(EAuthenticatedPath.USERS);
+      // navigate(EAuthenticatedPath.USERS);
     } finally {
       setLoading(false);
     }
@@ -110,7 +107,7 @@ export function UserUpdate() {
 
       toast.success('Usuário excluido com sucesso!');
 
-      navigate(EAuthenticatedPath.USERS);
+      // navigate(EAuthenticatedPath.USERS);
     } catch (error: any) {
       toast.error(formatErrorForNotification(error.response.data));
     } finally {

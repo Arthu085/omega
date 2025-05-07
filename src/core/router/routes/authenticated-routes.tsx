@@ -1,16 +1,16 @@
 import {
-  AccountCircleSharp,
   HomeOutlined,
-  Settings
+  PeopleOutline,
+  AirplayOutlined
 } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
-
-import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
+import { CreateProduction } from '@modules/home/pages/create/create-production';
+import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
 import { EAbilityCodes } from '@/modules/role/domain';
 import { UserCreate, UserList, UserUpdate } from '@/modules/user/pages';
 import { ClockIcon } from '@mui/x-date-pickers';
@@ -21,19 +21,35 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
     name: 'Redirect',
     hidden: true,
     path: '*',
-    element: <Navigate to={EAuthenticatedPath.HOME} />,
+    element: <Navigate to={EAuthenticatedPath.PRODUCAO} />
   },
   {
-    name: 'Página Inicial',
+    name: 'Produções',
+    path: EAuthenticatedPath.PRODUCAO,
     icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
+    children: [
+      {
+        name: 'Produções',
+        index: true,
+        element: <Home />
+      },
+      {
+        name: 'Nova Produção',
+        path: 'novo',
+        hidden: true,
+        children: [
+          {
+            name: 'Nova Produção',
+            index: true,
+            element: <CreateProduction />
+          }
+        ]
+      },
+      {
+        name: 'Ver Produção',
+        path: ':id',
+        hidden: true,
+    ],
   },
   {
     name: 'Fornos',
@@ -100,38 +116,4 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
     ability: EAbilityCodes.HISTORY,
     element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
   },
-  {
-    name: 'Clientes',
-    icon: <AccountCircleSharp />,
-    path: EAuthenticatedPath.USERS,
-    ability: EAbilityCodes.CLIENTS,
-    //element: <RequiredAbility code={EAbilityCodes.ROLES} />,
-    children: [
-   //   {
-     //   index: true,
-    //    name: "Clientes",
-     //   element: <UserList />
-    //  },
-      {
-        name: 'Ver Usuário',
-        hidden: true,
-        path: ':id',
-       //element: <RequiredAbility code={EAbilityCodes.USERS} />,
-        children: [
-          {
-            name: 'Ver Usuário',
-            index: true,
-            element: <UserUpdate />,
-          },
-        ],
-      },
-    ] // todo: hoc of required ability
-  },
-  {
-    name: 'Configurações',
-    icon: <Settings />,
-    path: EAuthenticatedPath.USER_SETTINGS,
-    ability: EAbilityCodes.ROLES,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
-  }
 ];

@@ -1,7 +1,5 @@
-import { Fragment, MouseEvent, useEffect, useState } from 'react';
 import { Bedtime, Logout, Person, WbSunny } from '@mui/icons-material';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Avatar,
   ClickAwayListener,
@@ -17,13 +15,13 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
+import { Fragment, MouseEvent, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useTheme } from '@/core/theme/theme';
 import { useAuth } from '@/modules/auth/hooks';
-import { EAuthenticatedPath } from '@/core/router';
 
 export function AuthenticatedHeaderProfile() {
-  const navigate = useNavigate();
   const { themeMode, toggleThemeMode } = useTheme();
   const { pathname } = useLocation();
   const { logout, user } = useAuth();
@@ -42,7 +40,7 @@ export function AuthenticatedHeaderProfile() {
   }
 
   function configurate() {
-    navigate(EAuthenticatedPath.USER_SETTINGS);
+    // navigate(EAuthenticatedPath.USER_SETTINGS);
   }
 
   const avatar = undefined;

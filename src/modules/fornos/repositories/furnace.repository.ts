@@ -68,6 +68,14 @@ export class FurnaceRepository extends Repository {
     throw new Error('Ops, algo inesperado aconteceu!');
   }
 
+  public async delete(id: ID): Promise<FurnaceEntity> {
+    const { status, data } = await this.http.delete<FurnaceEntity>(`/delete/${id}`);
+
+    if (this.isOK(status)) return new FurnaceEntity(data);
+
+    throw new Error('Ops, algo inesperado aconteceu!');
+  }
+
   // public async updateStatus(id: ID, record: EStatus): Promise<void> {
   //   const { status } = await this.http.patch(`/${id}`, { status: record });
 

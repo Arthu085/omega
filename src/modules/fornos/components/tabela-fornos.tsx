@@ -12,6 +12,7 @@ import { IMenu, IOption, IPaginationRequest, IPaginationResponse } from '@/share
 import { FornosListDTO } from '../domain/dto/fornos-list.dto';
 import { FurnaceEntity } from '../domain/entities/furnace.entity';
 import { FurnaceCreateModal } from '../pages/create/components/create-furnace-modal';
+import { FurnaceDeleteModal } from '../pages/create/components/delete-furnace-modal';
 import { EStatusForno } from '../domain/enums/status-fornos.enum';
 
 interface FurnaceListTableProps {
@@ -34,6 +35,8 @@ export function FurnaceListTable({
     const [editData, setEditData] = useState<any>(null);
     const [idEditData, setIdEditData] = useState<any>(null);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);  
+    const [deleteData, setDeleteData] = useState<FurnaceEntity | null>(null); 
 
     const navigate = useNavigate();
 
@@ -83,6 +86,16 @@ export function FurnaceListTable({
             }
         }
     }
+
+    const deletePhase = (id: number) => {
+        if (data) {
+            const phaseData = data.data.find((phase: any) => phase.id === id);
+            if (phaseData) {
+                setDeleteData(phaseData);
+                setIsOpenDeleteModal(true); // Abre o modal de exclusão
+            }
+        }
+    };
 
     const columns: Array<MUIDataTableColumnDef> = [
         {
@@ -140,6 +153,10 @@ export function FurnaceListTable({
                             label: 'Editar Dados',
                             action: () => editPhase(id),
                         },
+                        {
+                            label: 'Excluir',
+                            action: () => deletePhase(id), // Ação de exclusão
+                        },
                     ];
 
 
@@ -195,6 +212,12 @@ export function FurnaceListTable({
         mutate()
     }
 
+    const handleCloseDeleteModal = () => {
+        setIsOpenDeleteModal(false);
+        setDeleteData(null);
+        mutate();
+    };
+
     return (
         <Fragment>
             <DataTable
@@ -205,6 +228,13 @@ export function FurnaceListTable({
                 error={error}
             />
             <FurnaceCreateModal id={idEditData} data={editData} isOpen={isOpen} onClose={() => handleCloseModal()} />
+            <FurnaceDeleteModal
+                isOpen={isOpenDeleteModal}
+                onClose={handleCloseDeleteModal}
+                id={deleteData?.id}
+                data={deleteData ?? undefined}
+                onDelete={handleCloseDeleteModal}
+            />
         </Fragment>
     );
 }

@@ -1,13 +1,7 @@
 import { Repository } from '@/core/http/repository';
 import { User } from '@/modules/user/domain';
 
-import {
-  LoginRequestDTO,
-  ResetRequestDTO,
-  LoginResponseDTO,
-  RecoverRequestDTO,
-  SignUpDTO,
-} from '../domain';
+import { LoginRequestDTO, LoginResponseDTO, SignUpDTO } from '../domain';
 import { ConfirmRequestDTO } from '../domain/dto/confirm-request.dto';
 
 export class AuthRepository extends Repository {
