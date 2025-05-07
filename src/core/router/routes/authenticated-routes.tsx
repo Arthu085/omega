@@ -1,5 +1,6 @@
-import {
-  HomeOutlined
+import { 
+  PeopleOutline,
+  AirplayOutlined
 } from '@mui/icons-material';
 
 import { Navigate } from 'react-router-dom';
@@ -21,7 +22,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Produções',
     path: EAuthenticatedPath.PRODUCAO,
-    icon: <HomeOutlined />,
+    icon: <AirplayOutlined />,
     children: [
       {
         name: 'Produções',
@@ -76,7 +77,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   },
   {
     name: 'Funcionários',
-    icon: <HomeOutlined />,
+    icon: <PeopleOutline />,
     element: <UserList />,
     path: EAuthenticatedPath.FUNCIONARIO,
     children: [
