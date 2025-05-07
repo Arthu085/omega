@@ -1,7 +1,5 @@
 import {
-  HomeOutlined,
-  PeopleOutline,
-  AirplayOutlined
+  HomeOutlined
 } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
@@ -10,11 +8,8 @@ import { IRoute } from '../domain/interfaces/route.interface';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
-import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
-import { EAbilityCodes } from '@/modules/role/domain';
-import { UserCreate, UserList, UserUpdate } from '@/modules/user/pages';
-import { ClockIcon } from '@mui/x-date-pickers';
-import { RequiredAbility } from '../hocs/required-ability';
+import { UserCreate, UserList } from '@/modules/user/pages';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -39,6 +34,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         hidden: true,
         children: [
           {
+
             name: 'Nova Produção',
             index: true,
             element: <CreateProduction />
@@ -49,11 +45,12 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         name: 'Ver Produção',
         path: ':id',
         hidden: true,
-    ],
+      },
+    ]
   },
   {
     name: 'Fornos',
-    path: EAuthenticatedPath.FORNOS,
+    path: EAuthenticatedPath.FORNO,
     icon: <FurnaceIcon />,
     element: <Fornos />,
     children: [
@@ -102,18 +99,5 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         ],
       },
     ],
-  },
-  {
-    name: 'Produções',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <ClockIcon />,
-    path: EAuthenticatedPath.HISTORY,
-    ability: EAbilityCodes.HISTORY,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
   },
 ];
