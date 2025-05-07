@@ -1,4 +1,3 @@
-import { AddressSchema } from '@/shared/domain/schemas/address.schema';
 import { z } from 'zod';
 
 export const UserUpdateSelfSchema = z.object({

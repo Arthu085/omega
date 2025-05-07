@@ -1,5 +1,4 @@
 import {
-  LinkButton,
   Page,
   PageButtons,
   PageCard,
@@ -9,26 +8,24 @@ import {
 import { UserListFilter } from './components/user-list-filter';
 import { UserListTable } from './components/user-list-table';
 import { useState } from 'react';
-import { Cards } from '@/modules/home/repositories/home-repository';
+//import { Cards } from '@/modules/home/repositories/home-repository';
 import { useAuth } from '@/modules/auth/hooks';
 import { useForm } from 'react-hook-form';
 import { UserRepository } from '../../repositories';
 import { useUserListParams } from '../../hooks';
 import useSWR from 'swr';
 import { Button } from '@mui/material';
-import { UserCreateForm } from '../../components/user-create-form';
+import { UserCreateForm } from '../create/components/user-create-form';
 
 export function UserList() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [cards] = useState<Cards>({
-      countAllAssets: 0,
-      countAllSubsetsCompany: 0,
-  });
-
-
+ // const [cards] = useState<Cards>({
+  //    countAllAssets: 0,
+  //    countAllSubsetsCompany: 0,
+ // });
 
   const { user } = useAuth();
-  const { control, watch } = useForm({
+  const { watch } = useForm({
       defaultValues: {
           searchText: '',
           level: undefined,

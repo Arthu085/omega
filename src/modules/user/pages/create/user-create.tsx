@@ -1,4 +1,3 @@
-import { EAuthenticatedPath } from '@/core/router';
 import {
   LinkButton,
   LoadingButton,
@@ -12,7 +11,6 @@ import { formatErrorForNotification } from '@/shared/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { UserCreateFilter } from './components/user-create-filter';
 import { UserRepository } from '../../repositories';
@@ -22,17 +20,16 @@ import { ERolesUser } from '../../domain/enums/user-roles';
 
 export function UserCreate() {
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
   const userRepository = new UserRepository();
 
   const methods = useForm<UserCreateData>({
     defaultValues: {
-      name: '',
-      lastname: '',
+      nome: '',
+      sobrenome: '',
       email: '',
-      password: '',
+      senha: '',
       status: EStatusUser.ACTIVE,
-      role: ERolesUser.USER,
+      roles: ERolesUser.USER,
     },
     resolver: zodResolver(userCreateSchema),
   });
@@ -55,12 +52,12 @@ export function UserCreate() {
 
   async function submit(data: UserCreateData) {
     const user = {
-      name: data.name,
-      lastname: data.lastname,
+      nome: data.nome,
+      sobrenome: data.sobrenome,
       email: data.email,
-      password: data.password,
+      senha: data.senha,
       status: data.status,
-      role: data.role
+      roles: data.roles
     }
     create(user);
   }
