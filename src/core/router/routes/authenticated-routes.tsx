@@ -1,15 +1,15 @@
 import {
-  HomeOutlined,
+  HomeOutlined
 } from '@mui/icons-material';
-import { Navigate } from 'react-router-dom';
 
-import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
+import { Navigate } from 'react-router-dom';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
-import { UserCreate, UserList } from '@/modules/user/pages';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
+import { UserCreate, UserList } from '@/modules/user/pages';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -34,6 +34,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         hidden: true,
         children: [
           {
+
             name: 'Nova Produção',
             index: true,
             element: <CreateProduction />
