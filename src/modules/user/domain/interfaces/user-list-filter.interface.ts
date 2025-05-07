@@ -3,7 +3,7 @@ import { EStatus } from '@/shared/domain';
 import { ERolesUser } from '../enums/user-roles';
 
 export interface IUserListFilter {
-  role?: ERolesUser;
+  roles?: ERolesUser;
   search?: string;
   status?: EStatus;
 }
