@@ -1,20 +1,15 @@
 import {
   HomeOutlined,
-  PeopleOutline,
-  AirplayOutlined
 } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
-import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
-import { IRoute } from '../domain/interfaces/route.interface';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
+import { UserCreate, UserList } from '@/modules/user/pages';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
-import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
-import { EAbilityCodes } from '@/modules/role/domain';
-import { UserCreate, UserList, UserUpdate } from '@/modules/user/pages';
-import { ClockIcon } from '@mui/x-date-pickers';
-import { RequiredAbility } from '../hocs/required-ability';
+import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
+import { IRoute } from '../domain/interfaces/route.interface';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -49,11 +44,12 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         name: 'Ver Produção',
         path: ':id',
         hidden: true,
+      }
     ],
   },
   {
     name: 'Fornos',
-    path: EAuthenticatedPath.FORNOS,
+    path: EAuthenticatedPath.FORNO,
     icon: <FurnaceIcon />,
     element: <Fornos />,
     children: [
@@ -81,7 +77,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
     name: 'Funcionários',
     icon: <HomeOutlined />,
     element: <UserList />,
-    path: EAuthenticatedPath.FUNCIONARIOS,
+    path: EAuthenticatedPath.FUNCIONARIO,
     children: [
       // {
          //index: true,
@@ -102,18 +98,5 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         ],
       },
     ],
-  },
-  {
-    name: 'Produções',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <ClockIcon />,
-    path: EAuthenticatedPath.HISTORY,
-    ability: EAbilityCodes.HISTORY,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
   },
 ];

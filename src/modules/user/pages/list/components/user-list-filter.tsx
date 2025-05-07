@@ -17,7 +17,7 @@ export function UserListFilter() {
     defaultValues: {
       search: params.filter.search ?? '',
       status: params.filter.status as EStatus | undefined,
-      role: params.filter.role as ERolesUser | undefined,
+      roles: params.filter.roles as ERolesUser | undefined,
       // company:
       //   params.filter.companyId && !isNaN(Number(params.filter.companyId))
       //     ? new Company({ id: Number(params.filter.companyId) })
@@ -27,16 +27,16 @@ export function UserListFilter() {
 
   const search = watch('search');
   const status = watch('status');
-  const role = watch('role');
+  const roles = watch('roles');
 
   useEffect(() => {
     onChangeFilter({
       search: search,
       status: status,
-      role: role,
+      roles: roles,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [role, search, status]);
+  }, [roles, search, status]);
 
   return (
     <Grid container spacing={2} component='form'>
@@ -56,7 +56,7 @@ export function UserListFilter() {
       </Grid> */}
 
       <Grid item md={3} sm={6} xs={6}>
-        <ControlledRole label='Perfil' name='role' control={control} />
+        <ControlledRole label='Perfil' name='roles' control={control} />
       </Grid>
 
       <Grid item md={3} sm={6} xs={6}>

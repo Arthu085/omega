@@ -46,7 +46,6 @@ export function UserCreate() {
       await userRepository.create(data);
 
       toast.success('Usuário cadastrado com sucesso!');
-      navigate(EAuthenticatedPath.USERS);
     } catch (error) {
       toast.error(formatErrorForNotification(error));
     } finally {

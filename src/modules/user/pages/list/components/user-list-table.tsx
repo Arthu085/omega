@@ -32,8 +32,7 @@ export function UserListTable({
   mutate,
   params,
   onChangePagination,
-}: UserListTableProps
-) {
+}: UserListTableProps) {
   
   const [editData, setEditData] = useState<any>(null);
   const [idEditData, setIdEditData] = useState<any>(null);
@@ -43,10 +42,11 @@ export function UserListTable({
   
     const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
         email: { label: 'email', value: true },
-        nome: { label: 'Nome', value: true },
+        nome: { label: 'nome', value: true },
         sobrenome: { label: 'sobrenome', value: true },
-        password: { label: 'sobrenome', value: true },
-        role: { label: 'função', value: true },
+        senha: { label: 'senha', value: true },
+        roles: { label: 'função', value: true },
+        status: { label: 'status', value: true},
     });
 
   function handleToggleColumn(column: string) {
@@ -59,34 +59,16 @@ export function UserListTable({
     }));
   }
 
-  const renderStatusCircle = (status: string) => {
-    const circleStyle = {
-        width: '10px',
-        height: '10px',
-        borderRadius: '50%',
-        display: 'inline-block',
-        margin: '0 5px',
-    };
-
-    if (status === EStatusUser.ACTIVE) {
-        return <span style={{ ...circleStyle, backgroundColor: 'green' }} />;
-    } else if (status === EStatusUser.INATIVE) {
-        return <span style={{ ...circleStyle, backgroundColor: 'red' }} />;
+  const editPhase = (id: number) => {
+    if (data) {
+        const phaseData = data.data.find((phase: any) => phase.id === id);
+        if (phaseData) {
+            setEditData(phaseData);
+            setIdEditData(id)
+            setIsOpen(true)
+        }
     }
-
-    return null;
-};
-
-const editPhase = (id: number) => {
-  if (data) {
-      const phaseData = data.data.find((phase: any) => phase.id === id);
-      if (phaseData) {
-          setEditData(phaseData);
-          setIdEditData(id)
-          setIsOpen(true)
-      }
   }
-}
 
   const columns: Array<MUIDataTableColumnDef> = [
      {
@@ -100,12 +82,12 @@ const editPhase = (id: number) => {
              {
                label: EStatusUserTranslate.ACTIVE,
                value: EStatusUser.ACTIVE,
-               color: 'primary',
+               color: 'success',
              },
              {
                label: EStatusUserTranslate.INATIVE,
                value: EStatusUser.INATIVE,
-               color: 'secondary',
+               color: 'primary',
              },
            ]
 
@@ -114,31 +96,44 @@ const editPhase = (id: number) => {
        },
      },
     {
-      name: 'name',
-      label: toggleColumns['name'].label,
+      name: 'nome',
+      label: toggleColumns['nome'].label,
       options: {
         sortThirdClickReset: true,
-        display: toggleColumns['name'].value,
+        display: toggleColumns['nome'].value,
       },
     },
     {
-      name: 'lastname',
-      label: toggleColumns['lastname'].label,
+      name: 'sobrenome',
+      label: toggleColumns['sobrenome'].label,
       options: {
         sortThirdClickReset: true,
-        display: toggleColumns['lastname'].value,
+        display: toggleColumns['sobrenome'].value,
       },
     },
     {
-      name: 'role',
-      label: toggleColumns['role'].label,
+      name: 'roles',
+      label: toggleColumns['roles'].label,
       options: {
-        sort: false,
-        sortThirdClickReset: true,
-        display: toggleColumns['role'].value,
-        customBodyRender: (role?: ERolesUser) => {
-          return role ?? '';
-        },
+          sort: false,
+          sortThirdClickReset: true,
+          display: toggleColumns['roles'].value,
+          customBodyRender: (value: ERolesUser) => {
+            const status: Array<IStatus<ERolesUser>> = [
+              {
+                label: ERolesUser.USER,
+                value: ERolesUser.USER,
+                color: 'success',
+              },
+              {
+                label: ERolesUser.USER,
+                value: ERolesUser.USER,
+                color: 'primary',
+              },
+            ]
+
+            return DataTableColumnStatus({ status, value });
+          },
       },
     },
     {

@@ -4,7 +4,7 @@ import { ERolesUser } from '../enums/user-roles';
 export interface UserListFilterDTO {
   search?: string;
   status?: string;
-  role?: ERolesUser;
+  roles?: ERolesUser;
 }
 
 export interface UserListDTO {
