@@ -1,10 +1,10 @@
 import { IPaginationRequest } from '@/shared/domain';
+import { ERolesUser } from '../enums/user-roles';
 
 export interface UserListFilterDTO {
   search?: string;
   status?: string;
-  companyId?: number;
-  roleId?: number;
+  role?: ERolesUser;
 }
 
 export interface UserListDTO {

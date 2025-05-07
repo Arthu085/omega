@@ -11,6 +11,10 @@ import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
 import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
+import { EAbilityCodes } from '@/modules/role/domain';
+import { UserCreate, UserList, UserUpdate } from '@/modules/user/pages';
+import { ClockIcon } from '@mui/x-date-pickers';
+import { RequiredAbility } from '../hocs/required-ability';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -45,26 +49,71 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         name: 'Ver Produção',
         path: ':id',
         hidden: true,
-        children: [
-          {
-            name: 'Ver Produção',
-            index: true,
-            element: <ProductionUpdate />,
-          },
-        ],
-      },
-    ]
+    ],
   },
   {
     name: 'Fornos',
-    path: EAuthenticatedPath.FORNO,
-    icon: <AirplayOutlined />,
-    element: <Fornos />
+    path: EAuthenticatedPath.FORNOS,
+    icon: <FurnaceIcon />,
+    element: <Fornos />,
+    children: [
+      // {
+      //   index: true,
+      //   name: 'Cadastro de Hierarquia',
+      //   element: <CompanyList />,
+      // },
+      {
+        name: 'Novos Fornos',
+        hidden: true,
+        path: 'novo',
+        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
+        children: [
+          {
+            name: 'Novos Fornos',
+            index: true,
+            element: <Fornos />,
+          },
+        ],
+      },
+    ],
   },
   {
     name: 'Funcionários',
-    path: EAuthenticatedPath.FUNCIONARIO,
-    icon: <PeopleOutline />,
-    element: <Home />
-  }
+    icon: <HomeOutlined />,
+    element: <UserList />,
+    path: EAuthenticatedPath.FUNCIONARIOS,
+    children: [
+      // {
+         //index: true,
+     //    name: 'Funcionários',
+        // element: <UserList />,
+    //   },
+      {
+        name: 'Novos Usuario',
+        hidden: true,
+        path: 'novo',
+        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
+        children: [
+          {
+            name: 'Novos Usuario',
+            index: true,
+            element: <UserCreate />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Produções',
+    icon: <HomeOutlined />,
+    element: <Home />,
+    path: EAuthenticatedPath.HOME,
+  },
+  {
+    name: 'Histórico',
+    icon: <ClockIcon />,
+    path: EAuthenticatedPath.HISTORY,
+    ability: EAbilityCodes.HISTORY,
+    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
+  },
 ];

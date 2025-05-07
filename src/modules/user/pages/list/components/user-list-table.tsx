@@ -1,41 +1,53 @@
 import { MUIDataTableColumnDef, MUIDataTableOptions } from 'mui-datatables';
 import { Fragment, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useSWR from 'swr';
 
 import {
   DataTable,
   DataTableColumnEmail,
   DataTableColumnMenu,
+  DataTableColumnStatus,
   DataTableToggleColumns
 } from '@/shared/components';
-import { IMenu, IOption } from '@/shared/domain';
+import { IMenu, IOption, IPaginationRequest, IPaginationResponse, IStatus } from '@/shared/domain';
 
-import { useAuth } from '@/modules/auth/hooks';
-import { Role } from '@/modules/role/domain';
-import { useUser, useUserListParams } from '@/modules/user/hooks';
-import { UserRepository } from '@/modules/user/repositories';
+import { ERolesUser } from '@/modules/user/domain/enums/user-roles';
+import { User, UserListDTO } from '@/modules/user/domain';
+import { EStatusUser, EStatusUserTranslate } from '@/modules/user/domain/enums/user-status';
+import { UserCreateForm } from '@/modules/user/components/user-create-form';
 
-export function UserListTable() {
-  const { user } = useAuth();
-  const canDelete = true
+interface UserListTableProps {
+  data: { data: User[]; total: number } | undefined;
+  isLoading: boolean;
+  error: string | null;
+  mutate: () => Promise<IPaginationResponse<User> | undefined>;
+  params: UserListDTO;
+  onChangePagination: (pagination: IPaginationRequest) => void;
+}
+
+export function UserListTable({
+  data,
+  isLoading,
+  error,
+  mutate,
+  params,
+  onChangePagination,
+}: UserListTableProps
+) {
+  
+  const [editData, setEditData] = useState<any>(null);
+  const [idEditData, setIdEditData] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
-
-  const userRepository = new UserRepository();
-
-  const { params, onChangePagination } = useUserListParams();
-  const { deleteUser } = useUser();
-
-  const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
-    role: { label: 'Perfil', value: true },
-    name: { label: 'Nome', value: true },
-    email: { label: 'E-mail', value: true },
-  });
-
-  const { data, isLoading, error, mutate } = useSWR([`user-list-${user?.id}`, params], ([_url, value]) =>
-    userRepository.list(value),
-  );
+  
+    const [toggleColumns, setToggleColumns] = useState<Record<string, IOption<boolean>>>({
+        email: { label: 'email', value: true },
+        nome: { label: 'Nome', value: true },
+        sobrenome: { label: 'sobrenome', value: true },
+        password: { label: 'sobrenome', value: true },
+        role: { label: 'função', value: true },
+    });
 
   function handleToggleColumn(column: string) {
     setToggleColumns((prev) => ({
@@ -47,41 +59,60 @@ export function UserListTable() {
     }));
   }
 
-  const columns: Array<MUIDataTableColumnDef> = [
-    // {
-    //   name: 'status',
-    //   label: toggleColumns['status'].label,
-    //   options: {
-    //     sortThirdClickReset: true,
-    //     display: toggleColumns['status'].value,
-    //     customBodyRender: (value: EStatus) => {
-    //       const status: Array<IStatus<EStatus>> = [
-    //         {
-    //           label: EStatusTranslate.WAITING,
-    //           value: EStatus.WAITING,
-    //           color: 'primary',
-    //         },
-    //         {
-    //           label: EStatusTranslate.ACTIVE,
-    //           value: EStatus.ACTIVE,
-    //           color: 'secondary',
-    //         },
-    //         {
-    //           label: EStatusTranslate.INACTIVE,
-    //           value: EStatus.INACTIVE,
-    //           color: 'default',
-    //         },
-    //         {
-    //           label: EStatusTranslate.BLOCKED,
-    //           value: EStatus.BLOCKED,
-    //           color: 'error',
-    //         },
-    //       ];
+  const renderStatusCircle = (status: string) => {
+    const circleStyle = {
+        width: '10px',
+        height: '10px',
+        borderRadius: '50%',
+        display: 'inline-block',
+        margin: '0 5px',
+    };
 
-    //       return DataTableColumnStatus({ status, value });
-    //     },
-    //   },
-    // },
+    if (status === EStatusUser.ACTIVE) {
+        return <span style={{ ...circleStyle, backgroundColor: 'green' }} />;
+    } else if (status === EStatusUser.INATIVE) {
+        return <span style={{ ...circleStyle, backgroundColor: 'red' }} />;
+    }
+
+    return null;
+};
+
+const editPhase = (id: number) => {
+  if (data) {
+      const phaseData = data.data.find((phase: any) => phase.id === id);
+      if (phaseData) {
+          setEditData(phaseData);
+          setIdEditData(id)
+          setIsOpen(true)
+      }
+  }
+}
+
+  const columns: Array<MUIDataTableColumnDef> = [
+     {
+       name: 'status',
+       label: toggleColumns['status'].label,
+       options: {
+         sortThirdClickReset: true,
+         display: toggleColumns['status'].value,
+         customBodyRender: (value: EStatusUser) => {
+           const status: Array<IStatus<EStatusUser>> = [
+             {
+               label: EStatusUserTranslate.ACTIVE,
+               value: EStatusUser.ACTIVE,
+               color: 'primary',
+             },
+             {
+               label: EStatusUserTranslate.INATIVE,
+               value: EStatusUser.INATIVE,
+               color: 'secondary',
+             },
+           ]
+
+           return DataTableColumnStatus({ status, value });
+         },
+       },
+     },
     {
       name: 'name',
       label: toggleColumns['name'].label,
@@ -91,14 +122,22 @@ export function UserListTable() {
       },
     },
     {
+      name: 'lastname',
+      label: toggleColumns['lastname'].label,
+      options: {
+        sortThirdClickReset: true,
+        display: toggleColumns['lastname'].value,
+      },
+    },
+    {
       name: 'role',
       label: toggleColumns['role'].label,
       options: {
         sort: false,
         sortThirdClickReset: true,
         display: toggleColumns['role'].value,
-        customBodyRender: (role?: Role) => {
-          return role?.name ?? '';
+        customBodyRender: (role?: ERolesUser) => {
+          return role ?? '';
         },
       },
     },
@@ -111,15 +150,7 @@ export function UserListTable() {
         customBodyRender: (email: string) => DataTableColumnEmail({ email }),
       },
     },
-    // {
-    //   name: 'phone',
-    //   label: toggleColumns['phone'].label,
-    //   options: {
-    //     sortThirdClickReset: true,
-    //     display: toggleColumns['phone'].value,
-    //     customBodyRender: (phone: string) => phone === null ? '' : DataTableColumnPhone({ phone }),
-    //   },
-    // },
+
     {
       name: 'id',
       label: ' ',
@@ -134,33 +165,14 @@ export function UserListTable() {
             />
           );
         },
-        customBodyRender: (id: number, { }) => {
-          // const rowUser = data?.data.at(rowIndex);
-
-          // const newStatus: EStatus =
-          //   EStatus.ACTIVE;
-
-          // const updateStatusLavel: string =
-          //   newStatus === EStatus.ACTIVE ? 'Liberar Acesso' : 'Bloquear Acesso';
+        customBodyRender: (id: number) => {
 
           const items: Array<IMenu> = [
             {
-              label: 'Ver Detalhes',
-              action: () => navigate(`./${id}`),
+              label: 'Editar dados',
+              action: () => editPhase(id),
             },
-            // {
-            //   label: updateStatusLavel,
-            //   action: () => updateStatusUser(id, newStatus, mutate),
-            // },
           ];
-
-          if (canDelete) {
-            items.push({
-              label: 'Excluir',
-              action: () => deleteUser(id, mutate),
-            });
-          }
-
           return <DataTableColumnMenu items={items} />;
         },
       },
@@ -206,15 +218,23 @@ export function UserListTable() {
     },
   };
 
+  const handleCloseModal = () => {
+    setIsOpen(false)
+    setIdEditData(null)
+    setEditData(null)
+    mutate()
+}
+
   return (
     <Fragment>
-      <DataTable
+    <DataTable
         loading={isLoading}
         data={data ? data.data : []}
         columns={columns}
         options={options}
         error={error}
-      />
-    </Fragment>
+    />
+    <UserCreateForm id={idEditData} data={editData} isOpen={isOpen} onClose={() => handleCloseModal()} />
+</Fragment>
   );
 }

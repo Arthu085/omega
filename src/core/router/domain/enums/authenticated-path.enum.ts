@@ -1,5 +1,5 @@
 export enum EAuthenticatedPath {
   PRODUCAO = '/producao',
   FORNO = '/forno',
-  FUNCIONARIO = '/funcionario'
+  FUNCIONARIOS = '/funcionarios'
 }
