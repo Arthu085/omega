@@ -1,0 +1,39 @@
+name: Create Branch Rollback on create pull
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened]
+permissions:
+  contents: write
+  pull-requests: 'write'
+jobs:
+  create_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Branch Name
+        id: set-branch-name
+        run: |
+          # Generate a dynamic branch name based on the current date and time
+          branch_name="main-rollback-$(date +'%Y%m%d%H%M%S')"
+          echo "::set-output name=branch_name::$branch_name" 
+          echo "branch_name=$branch_name" >> $GITHUB_ENV
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git for push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions@github.com"
+          branch_name=${{ steps.set-branch-name.outputs.branch_name }}
+          git fetch --all
+          git checkout -b $branch_name origin/main
+
+          git push --set-upstream https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git $branch_name
+
+      - name: 'Add pull request comment'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ## Rollback Branch
+            ${{env.branch_name}}

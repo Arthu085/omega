@@ -28,7 +28,7 @@ function accessPermission(user?: any, reference?: any): boolean {
   if (!reference) return true;
 
   return (
-    user?.role?.permissions?.some(
+    user?.roles?.permissions?.some(
       (roleAbility: any) =>
         roleAbility.code === reference && roleAbility.action === EAbilityAction.READ
     ) ?? false

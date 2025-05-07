@@ -20,7 +20,7 @@ export class RoleRepository extends Repository {
   }
 
   public async list(params: RoleListDTO): Promise<IPaginationResponse<Role>> {
-    const { status, data: response } = await this.http.get<IPaginationResponse<Role>>('/', {
+    const { status, data: response } = await this.http.get<IPaginationResponse<Role>>('', {
       params: {
         ...params.filter,
         ...params.pagination,

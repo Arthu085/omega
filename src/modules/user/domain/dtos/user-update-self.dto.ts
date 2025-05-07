@@ -1,16 +1,12 @@
-import { AddressCreateData } from '@/shared/domain';
+import { ERolesUser } from '../enums/user-roles';
+import { EStatusUser } from '../enums/user-status';
 
 export interface UserUpdateSelfDto {
   // Dados Gerais
-  name: string;
-  username: string;
-  email: string;
-  password?: string;
-  phone: string;
-  dateOfBirth: Date;
-  document?: string;
-  registration?: string;
-
-  // Endereço
-  address: AddressCreateData;
+  nome?: string;
+  lastname?: string,
+  status?: EStatusUser;
+  email?: string,
+  senha?: string,
+  role?: ERolesUser
 }

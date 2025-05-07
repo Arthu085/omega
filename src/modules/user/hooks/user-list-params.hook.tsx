@@ -24,8 +24,7 @@ export const useUserListParams = create<IUserListParams>()((set) => ({
           ...prev.filter,
           search: filter.search || undefined,
           status: filter.status || undefined,
-          roleId: filter.roleId || undefined,
-          companyId: filter.companyId || undefined,
+          roles: filter.roles || undefined,
         },
         pagination: {
           ...prev.pagination,

@@ -1,14 +1,14 @@
-import { Role } from '@/modules/role/domain/entities/role.entity';
+import { EStatusUser } from '../enums/user-status';
 
 export class User {
   id: number = 0;
   email: string = '';
   name: string = '';
-  username: string = '';
-  hash_password: string = '';
+  lastname: string = '';
+  password: string = '';
 
-  role?: Role;
-  role_id: number = 0;
+  status?: EStatusUser;
+  role?: string;
   createdAt?: string;
   updatedAt?: string;
   deletedAt?: string;

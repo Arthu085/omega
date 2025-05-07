@@ -20,7 +20,7 @@ export class UserRepository extends Repository {
   }
 
   public async list(params: UserListDTO): Promise<IPaginationResponse<User>> {
-    const { status, data: response } = await this.http.get<IPaginationResponse<User>>('/', {
+    const { status, data: response } = await this.http.get<IPaginationResponse<User>>('', {
       params: {
         ...params.filter,
         ...params.pagination,
@@ -49,7 +49,7 @@ export class UserRepository extends Repository {
   }
 
   public async create(record: UserCreateDTO): Promise<User> {
-    const { status, data } = await this.http.post<User, UserCreateDTO>('/', record);
+    const { status, data } = await this.http.post<User, UserCreateDTO>('', record);
 
     if (this.isOK(status)) return new User(data);
 

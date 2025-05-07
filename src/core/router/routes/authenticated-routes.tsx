@@ -1,43 +1,57 @@
-import {
-  AccountCircleSharp,
-  HomeOutlined,
-  Settings
+import { 
+  PeopleOutline,
+  AirplayOutlined
 } from '@mui/icons-material';
+
 import { Navigate } from 'react-router-dom';
-
-import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
-import { IRoute } from '../domain/interfaces/route.interface';
-
-import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
-import { EAbilityCodes } from '@/modules/role/domain';
-import { UserList, UserUpdate } from '@/modules/user/pages';
-import { ClockIcon } from '@mui/x-date-pickers';
-import { RequiredAbility } from '../hocs/required-ability';
+import { CreateProduction } from '@modules/home/pages/create/create-production';
+import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
+import { IRoute } from '../domain/interfaces/route.interface';
+import { UserList } from '@/modules/user/pages';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
     name: 'Redirect',
     hidden: true,
     path: '*',
-    element: <Navigate to={EAuthenticatedPath.HOME} />,
+    element: <Navigate to={EAuthenticatedPath.PRODUCAO} />
   },
   {
-    name: 'Página Inicial',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
+    name: 'Produções',
+    path: EAuthenticatedPath.PRODUCAO,
+    icon: <AirplayOutlined />,
+    children: [
+      {
+        name: 'Produções',
+        index: true,
+        element: <Home />
+      },
+      {
+        name: 'Nova Produção',
+        path: 'novo',
+        hidden: true,
+        children: [
+          {
+
+            name: 'Nova Produção',
+            index: true,
+            element: <CreateProduction />
+          }
+        ]
+      },
+      {
+        name: 'Ver Produção',
+        path: ':id',
+        hidden: true,
+      }
+    ],
   },
   {
     name: 'Fornos',
-    path: EAuthenticatedPath.FORNOS,
+    path: EAuthenticatedPath.FORNO,
     icon: <FurnaceIcon />,
     element: <Fornos />,
     children: [
@@ -63,55 +77,28 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   },
   {
     name: 'Funcionários',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Produções',
-    icon: <HomeOutlined />,
-    element: <Home />,
-    path: EAuthenticatedPath.HOME,
-  },
-  {
-    name: 'Histórico',
-    icon: <ClockIcon />,
-    path: EAuthenticatedPath.HISTORY,
-    ability: EAbilityCodes.HISTORY,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
-  },
-  {
-    name: 'Clientes',
-    icon: <AccountCircleSharp />,
-    path: EAuthenticatedPath.CLIENTS,
-    ability: EAbilityCodes.CLIENTS,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />,
+    icon: <PeopleOutline />,
+    element: <UserList />,
+    path: EAuthenticatedPath.FUNCIONARIO,
     children: [
+      // {
+         //index: true,
+     //    name: 'Funcionários',
+        // element: <UserList />,
+    //   },
       {
-        index: true,
-        name: "Clientes",
-        element: <UserList />
-      },
-      {
-        name: 'Ver Usuário',
+        name: 'Novos Usuario',
         hidden: true,
-        path: ':id',
-        element: <RequiredAbility code={EAbilityCodes.USERS} />,
+        path: 'novo',
+        // element: <RequiredAbility code={EAbilityCodes.USERS} action={EAbilityAction.CREATE} />,
         children: [
           {
-            name: 'Ver Usuário',
+            name: 'Novos Usuario',
             index: true,
-            element: <UserUpdate />,
+            element: <UserList />,
           },
         ],
       },
-    ] // todo: hoc of required ability
+    ],
   },
-  {
-    name: 'Configurações',
-    icon: <Settings />,
-    path: EAuthenticatedPath.USER_SETTINGS,
-    ability: EAbilityCodes.ROLES,
-    element: <RequiredAbility code={EAbilityCodes.ROLES} />, // todo: hoc of required ability
-  }
 ];

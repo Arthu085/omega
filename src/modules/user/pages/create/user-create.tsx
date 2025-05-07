@@ -1,4 +1,3 @@
-import { EAuthenticatedPath } from '@/core/router';
 import {
   LinkButton,
   LoadingButton,
@@ -12,27 +11,25 @@ import { formatErrorForNotification } from '@/shared/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { UserForm } from './components/user-create-form';
-import { EStatus } from '@/shared/domain';
 import { UserCreateFilter } from './components/user-create-filter';
 import { UserRepository } from '../../repositories';
 import { UserCreateDTO, UserCreateData, userCreateSchema } from '../../domain';
+import { EStatusUser } from '../../domain/enums/user-status';
+import { ERolesUser } from '../../domain/enums/user-roles';
 
 export function UserCreate() {
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
   const userRepository = new UserRepository();
 
   const methods = useForm<UserCreateData>({
     defaultValues: {
-      name: '',
-      username: '',
+      nome: '',
+      sobrenome: '',
       email: '',
-      password: '',
-      status: EStatus.ACTIVE,
-      registration: '',
+      senha: '',
+      status: EStatusUser.ACTIVE,
+      roles: ERolesUser.USER,
     },
     resolver: zodResolver(userCreateSchema),
   });
@@ -46,7 +43,6 @@ export function UserCreate() {
       await userRepository.create(data);
 
       toast.success('Usuário cadastrado com sucesso!');
-      navigate(EAuthenticatedPath.USERS);
     } catch (error) {
       toast.error(formatErrorForNotification(error));
     } finally {
@@ -56,13 +52,12 @@ export function UserCreate() {
 
   async function submit(data: UserCreateData) {
     const user = {
-      name: data.name,
-      username: data.username,
-      registration: data.registration,
+      nome: data.nome,
+      sobrenome: data.sobrenome,
       email: data.email,
-      password: data.password,
+      senha: data.senha,
       status: data.status,
-      roleId: data.role?.id
+      roles: data.roles
     }
     create(user);
   }
@@ -79,7 +74,7 @@ export function UserCreate() {
         <PageTitle toHome>Novo Usuário</PageTitle>
 
         <PageButtons>
-          <LinkButton to='/usuarios' variant='outlined' size='large' sx={{ minWidth: '180px' }}>
+          <LinkButton to='/funcionarios' variant='outlined' size='large'>
             Cancelar
           </LinkButton>
           <LoadingButton
@@ -98,7 +93,6 @@ export function UserCreate() {
       <PageCard sx={{ flexGrow: 1 }}>
         <FormProvider {...methods}>
           <UserCreateFilter />
-          <UserForm />
         </FormProvider>
       </PageCard>
     </Page>
