@@ -1,4 +1,3 @@
-import { ERolePermissions } from '@/modules/role/domain/enums/role-permissions.enum';
 import { ERolesUser } from '../enums/user-roles';
 import { EStatusUser } from '../enums/user-status';
 

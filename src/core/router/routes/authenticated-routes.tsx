@@ -9,7 +9,7 @@ import { Home } from '@/modules/home/pages/home';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
-import { UserCreate, UserList } from '@/modules/user/pages';
+import { UserList } from '@/modules/user/pages';
 import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
@@ -95,7 +95,7 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
           {
             name: 'Novos Usuario',
             index: true,
-            element: <UserCreate />,
+            element: <UserList />,
           },
         ],
       },

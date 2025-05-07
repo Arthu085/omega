@@ -1,7 +1,7 @@
 import { Box, Grid, Modal } from '@mui/material';
-import { useForm, useFormContext } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { ControlledPassword, ControlledText } from '@/shared/components';
-import { User, UserCreateData, UserCreateDTO } from '../domain';
+import { User, UserCreateDTO } from '../domain';
 import { UserRepository } from '../repositories';
 import { toast } from 'react-toastify';
 
@@ -38,7 +38,7 @@ export function UserCreateForm (
     if (data && id) {
         const user = {
             nome: formData.nome,
-            lastname: formData.lastname,
+            lastname: formData.sobrenome,
             status: formData.status,
             email: formData.email,
             senha: formData.senha,

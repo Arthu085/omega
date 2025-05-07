@@ -14,7 +14,7 @@ import { IMenu, IOption, IPaginationRequest, IPaginationResponse, IStatus } from
 import { ERolesUser } from '@/modules/user/domain/enums/user-roles';
 import { User, UserListDTO } from '@/modules/user/domain';
 import { EStatusUser, EStatusUserTranslate } from '@/modules/user/domain/enums/user-status';
-import { UserCreateForm } from '@/modules/user/components/user-create-form';
+import { UserCreateForm } from '../../create/components/user-create-form';
 
 interface UserListTableProps {
   data: { data: User[]; total: number } | undefined;

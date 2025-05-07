@@ -5,9 +5,8 @@ import { AutocompleteProps } from '@mui/material';
 import { formatErrorForNotification } from '@/shared/utils/error';
 
 import { ControlledAutocomplete } from '.';
-import { RoleRepository } from '@/modules/role/repositories/role.repository';
-import { Role } from '@/modules/role/domain';
 import { RoleListDTO } from '@/modules/role/domain/dto';
+import {  ERolesUser } from '@/modules/user/domain/enums/user-roles';
 
 interface Props
   extends UseControllerProps<any>,
@@ -25,13 +24,12 @@ interface Props
 }
 
 export function ControlledRole({ optionsParams, ...props }: Props) {
-  const repository = new RoleRepository();
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const [error, setError] = useState<string | undefined>();
 
-  const [roles, setRoles] = useState<Array<Role>>([]);
+  const [roles, setRoles] = useState<Array<ERolesUser>>([]);
 
   async function getRoles() {
     if (loading) return;
@@ -39,10 +37,12 @@ export function ControlledRole({ optionsParams, ...props }: Props) {
     try {
       setLoading(true);
       setError(undefined);
-
-      const { data } = await repository.list({...optionsParams!});
-
-      setRoles(data);
+      
+      const rolesArray = Object.values(ERolesUser).filter(value => 
+        typeof value === 'string'
+      ) as ERolesUser[];
+      
+      setRoles(rolesArray);
     } catch (error) {
       setError(formatErrorForNotification(error));
     } finally {
@@ -61,8 +61,8 @@ export function ControlledRole({ optionsParams, ...props }: Props) {
       options={roles}
       loading={loading}
       noOptionsText={error}
-      getOptionLabel={(role: Role) => role?.name ?? ''}
-      isOptionEqualToValue={(option, selected) => option?.id === selected?.id}
+      getOptionLabel={(role: ERolesUser) => role ?? ''}
+      isOptionEqualToValue={(option, selected) => option === selected}
     />
   );
 }

@@ -118,7 +118,7 @@ export function AuthenticatedHeaderProfile() {
                       <Typography>{user?.name ?? 'Nome do usuário'}</Typography>
 
                       <Typography fontSize='0.75rem' fontWeight='bold' color='primary'>
-                        {user?.role?.name ?? 'Perfil do Usuário'}
+                        {user?.name ?? 'Perfil do Usuário'}
                       </Typography>
 
                       <Typography fontSize='0.75rem' textOverflow='ellipsis' overflow='hidden'>

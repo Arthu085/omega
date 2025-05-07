@@ -1,3 +1,4 @@
+//import { useAuth } from '@/modules/auth/hooks';
 import {
   Checkbox,
   Divider,
@@ -14,11 +15,9 @@ import {
   EAbilityAction,
   EAbilityActionTranslate,
   EAbilityCodes,
-  EAbilityCodesTranslate,
-  ERoleReference,
+  EAbilityCodesTranslate
 } from '../../domain/enums/';
 import { RoleCreateData } from '../../domain/schemas/role-create.schema';
-import { useAuth } from '@/modules/auth/hooks';
 
 interface Props {
   code: EAbilityCodes;
@@ -27,7 +26,7 @@ interface Props {
 }
 
 export function AbilityGroup({ code, abilities, onChange }: Props) {
-  const { user } = useAuth();
+  //const { user } = useAuth();
   const { watch } = useFormContext<RoleCreateData>();
 
   const baseProfile = watch('baseProfile');
@@ -35,13 +34,13 @@ export function AbilityGroup({ code, abilities, onChange }: Props) {
   
   const selectedAbilities: Ability[] = watch('permissions') ?? [];
 
-  const reference = watch('reference');
+  //const reference = watch('reference');
 
-  const isAdminCompany =  ( reference === ERoleReference.ADMIN_COMPANY ) || ( user?.role?.reference === ERoleReference.ADMIN_COMPANY );
-  const isNoProfile = ( reference === ERoleReference.NO_PROFILE) || ( user?.role?.reference === ERoleReference.NO_PROFILE );
+  //const isAdminCompany =  ( reference === ERoleReference.ADMIN_COMPANY ) || ( user?.role?.reference === ERoleReference.ADMIN_COMPANY );
+  //const isNoProfile = ( reference === ERoleReference.NO_PROFILE) || ( user?.role?.reference === ERoleReference.NO_PROFILE );
 
-  if ( isAdminCompany && code === EAbilityCodes.COMPANIES ) return
-  if ( isNoProfile && ( code === EAbilityCodes.COMPANIES || code === EAbilityCodes.COMPANY ) ) return
+  //if ( isAdminCompany && code === EAbilityCodes.COMPANIES ) return
+  //if ( isNoProfile && ( code === EAbilityCodes.COMPANIES || code === EAbilityCodes.COMPANY ) ) return
 
   return (
     <Paper elevation={1} sx={{ padding: 1, width: 300 }}>

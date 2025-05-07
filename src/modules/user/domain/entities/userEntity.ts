@@ -1,4 +1,3 @@
-import { ERolesUser } from '../enums/user-roles';
 import { EStatusUser } from '../enums/user-status';
 
 export class User {
@@ -9,7 +8,7 @@ export class User {
   password: string = '';
 
   status?: EStatusUser;
-  role?: ERolesUser;
+  role?: string;
   createdAt?: string;
   updatedAt?: string;
   deletedAt?: string;
