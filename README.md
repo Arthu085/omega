@@ -24,7 +24,7 @@ O sistema **Omega** tem como objetivo controlar o fluxo de produções industria
 
 - **React**
 - **TypeScript**
-- **React Hook Form / Zod **
+- **React Hook Form / Zod***
 - **MUI / CSS Modules**
 - Integração com API RESTful (**Spring**)
 
