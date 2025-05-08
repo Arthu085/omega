@@ -1,16 +1,17 @@
-import { 
-  PeopleOutline,
-  AirplayOutlined
+import {
+  AirplayOutlined,
+  PeopleOutline
 } from '@mui/icons-material';
 
-import { Navigate } from 'react-router-dom';
+import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 import { Fornos } from '@/modules/fornos/pages/fornos';
 import { Home } from '@/modules/home/pages/home';
+import { ProductionUpdate } from '@/modules/home/pages/update/update-production';
+import { UserList } from '@/modules/user/pages';
 import { CreateProduction } from '@modules/home/pages/create/create-production';
+import { Navigate } from 'react-router-dom';
 import { EAuthenticatedPath } from '../domain/enums/authenticated-path.enum';
 import { IRoute } from '../domain/interfaces/route.interface';
-import { UserList } from '@/modules/user/pages';
-import { FurnaceIcon } from '@/modules/fornos/Icon/FurnaceIcon';
 
 export const AUTHENTICATED_ROUTES: Array<IRoute> = [
   {
@@ -46,6 +47,13 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
         name: 'Ver Produção',
         path: ':id',
         hidden: true,
+        children: [
+          {
+            name: 'Editar Produção',
+            index: true,
+            element: < ProductionUpdate />
+          }
+        ]
       }
     ],
   },
@@ -82,10 +90,10 @@ export const AUTHENTICATED_ROUTES: Array<IRoute> = [
     path: EAuthenticatedPath.FUNCIONARIO,
     children: [
       // {
-         //index: true,
-     //    name: 'Funcionários',
-        // element: <UserList />,
-    //   },
+      //index: true,
+      //    name: 'Funcionários',
+      // element: <UserList />,
+      //   },
       {
         name: 'Novos Usuario',
         hidden: true,
