@@ -32,7 +32,7 @@ O sistema **Omega** tem como objetivo controlar o fluxo de produções industria
 
 ```bash
 # Clone o repositório
-git clone [omega-front](https://github.com/Arthu085/omega)
+git clone https://github.com/Arthu085/omega.git
 # Acesse a pasta do projeto
 cd omega
 
