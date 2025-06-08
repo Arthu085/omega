@@ -1,8 +1,10 @@
 import { User, UserCreateDTO } from '@/modules/user/domain';
 import { ERolesUser } from '@/modules/user/domain/enums/user-roles';
+import { EStatusUser } from '@/modules/user/domain/enums/user-status';
 import { UserRepository } from '@/modules/user/repositories';
 import { ControlledPassword, ControlledText, LinkButton, LoadingButton, PageButtons } from '@/shared/components';
 import { ControlledRole } from '@/shared/components/fields/controlled-role';
+import { ControlledStatus } from '@/shared/components/fields/controlled-status';
 import { Box, Grid, Modal } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -52,7 +54,8 @@ export function UserCreateForm (
             email: formData.email,
             senha: formData.senha,
             role: formData.role,
-        };
+            status: formData.status,
+    };
 
         userRepository
             .update(id, user)
@@ -106,6 +109,13 @@ export function UserCreateForm (
           <Grid item sm={6} xs={6} md={12}>
             <ControlledRole label='' name='role' control={control} defaultValue={ERolesUser.USER}/>
           </Grid>
+
+          {(data && id) && (
+            <Grid item xs={12} style={{ marginTop: 16 }}>
+              <ControlledStatus label='' name='status' control={control} defaultValue={EStatusUser.ACTIVE} />
+            </Grid>
+          )}
+
         </Grid>
         <Grid item xs={12} style={{ marginTop: 16 }}>
           <PageButtons>
@@ -123,7 +133,7 @@ export function UserCreateForm (
             </LoadingButton>
           </PageButtons>
         </Grid>
-    </Box>
-  </Modal>
+      </Box>
+    </Modal>
   );
 }

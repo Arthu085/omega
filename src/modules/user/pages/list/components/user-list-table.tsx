@@ -219,7 +219,6 @@ export function UserListTable({
     setEditData(null)
     mutate()
 }
-
   return (
     <Fragment>
     <DataTable

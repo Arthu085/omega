@@ -57,7 +57,7 @@ export class UserRepository extends Repository {
   }
 
   public async update(id: ID, record: UserUpdateDTO): Promise<User> {
-    const { status, data } = await this.http.patch<User, UserUpdateDTO>(`/${id}`, record);
+    const { status, data } = await this.http.put<User, UserUpdateDTO>(`/${id}`, record);
 
     if (this.isOK(status)) return new User(data);
 
